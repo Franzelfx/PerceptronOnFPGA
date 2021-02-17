@@ -1,2 +1,2 @@
-# PerceptrontOnFPGA
+# PerceptronOnFPGA
 Synthesis of a Asynchronous Multilayer Perceptron on an FPGA
