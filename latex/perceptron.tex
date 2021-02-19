@@ -9,6 +9,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[a4paper, margin=1in]{geometry}
 \usepackage{tikz}
+\usepackage{float}
 
 % Tikz config
 \usetikzlibrary{calc}
@@ -144,8 +145,18 @@ common used one is the so called signoid function:
 \section{Design}
 
 \subsection{Hardware}
-
-% Block diagram of board and wiring
+The hardware of this project consist of a 32-bit microcontroller named SAM D21/DA1 and a
+Cyclone 10 FPGA. Both chips are placed on a board, so called Arduino Vidor 4000. This board
+comes with an USB interface, which will be the communication between frontend (PC) and
+the executing hardware. The figure \ref{fig:abstractHardwareDescription} show the most
+abstract hardware model. This model show the mentioned frontend and hardware, but also the
+"Top Level Resolver", which distribute the data to either the storage, which holds the data to
+be proceed, or the new settings for the single perceptron activation functions. In the concret
+model, the address line has a size of 8-Bit and the data line a size of 4-Bit. This results
+in a maximum count of 256 perceptrons in 16 layers, if one perceptron of the incomming layer
+is connected with all perceptrons of the previous outgoing layer. The load line tell the single
+perceptrons, that they can storage the new information after addressing.
+% Top Level Hardware Model Diagram
 \begin{figure}[htbp]
     \begin{center}
         \begin{tikzpicture} [>=latex', node distance = 2cm]
@@ -226,13 +237,13 @@ common used one is the so called signoid function:
             % Placing nodes
             \node[frontendNode](frontend){Frontend};
             \node[vidorNode, right = 1.5cm of frontend, yshift = -3cm](vidor){Arduino Vidor 4000};
-            \node[samd21Node, right = 2cm of frontend](samd21){SAMD21};
+            \node[samd21Node, right = 2cm of frontend](samd21){SAM D21};
             \node[fpgaNode, right = 1.5cm of samd21, yshift = -3cm](fpga){Cyclone 10};
-            \node[resolverNode, right = 2cm of samd21](resolver){Resolver};
+            \node[resolverNode, right = 2cm of samd21](resolver){Top Level Resolver};
             \node[storageNode, right = 1.5cm of resolver](storage){Storage};
             \node[layerNode, below = 1cm of resolver, xshift = 1.5cm](input){Input layer};
-            \node[layerNode, below = 0.5cm of input](hidden1){1. hidden layer};
-            \node[layerNode, below = 0.5cm of hidden1](hidden2){2. hidden layer};
+            \node[layerNode, below = 0.5cm of input](hidden1){1. Hidden Layer};
+            \node[layerNode, below = 0.5cm of hidden1](hidden2){\dots};
             \node[layerNode, below = 0.5cm of hidden2](output){Output layer};
             % Draw arrows
             \draw[->](frontend.east) -- ++(1.5,0) node[midway,above]{RS232};
@@ -245,23 +256,89 @@ common used one is the so called signoid function:
             \draw[->](resolver.south) ++(0,0) -- ++(0,-1) node[midway,sloped,right, rotate=90]{data};
             \draw[->](resolver.south) ++(1.5,0) -- ++(0,-1) node[midway,sloped,right, rotate=90]{load};
             \draw[->](storage.south) ++(-0.25,0) -- ++(0,-1) node[midway,sloped,right, rotate=90]{input};
-            \draw[->](input.south) ++(-3,0) -- ++(0,-0.5) node[midway,sloped,right, rotate=90]{};
-            \draw[->](input.south) ++(-1.5,0) -- ++(0,-0.5) node[midway,sloped,right, rotate=90]{};
-            \draw[->](input.south) ++(0,0) -- ++(0,-0.5) node[midway,sloped,right, rotate=90]{};
-            \draw[->](hidden1.south) ++(-3,0) -- ++(0,-0.5) node[midway,sloped,right, rotate=90]{};
-            \draw[->](hidden1.south) ++(-1.5,0) -- ++(0,-0.5) node[midway,sloped,right, rotate=90]{};
-            \draw[->](hidden1.south) ++(0,0) -- ++(0,-0.5) node[midway,sloped,right, rotate=90]{};
-            \draw[->](hidden2.south) ++(-3,0) -- ++(0,-0.5) node[midway,sloped,right, rotate=90]{};
-            \draw[->](hidden2.south) ++(-1.5,0) -- ++(0,-0.5) node[midway,sloped,right, rotate=90]{};
-            \draw[->](hidden2.south) ++(0,0) -- ++(0,-0.5) node[midway,sloped,right, rotate=90]{};
+            \draw[->](input.south) ++(-3,0) -- ++(0,-0.5);
+            \draw[->](input.south) ++(-1.5,0) -- ++(0,-0.5);
+            \draw[->](input.south) ++(0,0) -- ++(0,-0.5);
+            \draw[->](input.south) ++(1.5,0) -- ++(0,-0.5) node[midway,sloped,right, rotate=90]{connection};
+            \draw[->](hidden1.south) ++(-3,0) -- ++(0,-0.5);
+            \draw[->](hidden1.south) ++(-1.5,0) -- ++(0,-0.5);
+            \draw[->](hidden1.south) ++(0,0) -- ++(0,-0.5);
+            \draw[->](hidden1.south) ++(1.5,0) -- ++(0,-0.5);
+            \draw[->](hidden2.south) ++(-3,0) -- ++(0,-0.5);
+            \draw[->](hidden2.south) ++(-1.5,0) -- ++(0,-0.5);
+            \draw[->](hidden2.south) ++(0,0) -- ++(0,-0.5);
+            \draw[->](hidden2.south) ++(1.5,0) -- ++(0,-0.5);
             \draw[->](fpga.south) -- ++(0,-0.5) -| (samd21.south);
             \draw (samd21.south) ++(0.75,-0.25) node[]{output};
         \end{tikzpicture}
-        \caption{Top level hardware model}
+        \caption{Top Level Hardware Model}
+        \label{fig:abstractHardwareDescription}
+    \end{center}
+\end{figure}\pagebreak
+
+Every layer of the hardware model consists of a "Layer Resolver", which takes care about the
+signal distribution to every single perceptron. This has the advantage, that the data lines
+inside the single layer model can be recduced. In the concrete hardware model, the 8-Bit
+address line go through all the layer resolvers, which split them in a 4-Bit address line, which
+is connected to every perceptron in the particular layer. The data line stay a 4-Bit and the load
+line a 1-Bit connection and are simply y-splitted in the resolver.
+% Layer Level Hardware Model Diagram
+\begin{figure}[htbp]
+    \begin{center}
+        \begin{tikzpicture} [>=latex', node distance = 2cm]
+            % Set primary nodes
+            \tikzset{
+                entity/.style={
+                        rectangle,
+                        draw
+                    }
+            }
+            \tikzset{
+                layerNode/.style={
+                        draw,
+                        rectangle,
+                        minimum height=3cm,
+                        minimum width=15cm,
+                        text depth = 2cm
+                    }
+            }
+            \tikzset{
+                layerResolverNode/.style={
+                        draw,
+                        rectangle,
+                        minimum height=1.5cm,
+                        minimum width=2.5cm,
+                    }
+            }
+            \tikzset{
+                perceptronNode/.style={
+                        draw,
+                        rectangle,
+                        minimum height=1.5cm,
+                        minimum width=2cm,
+                    }
+            }
+            % Configure arrows
+            \tikzstyle{arrow} = [thick, ->, >=stealth]
+            % Placing nodes
+            \node[layerNode](layer){Layer};
+            \node[layerResolverNode, right = 0cm of layer, xshift = -14.5cm, yshift = -0.5cm](layerResolver){Layer Resolver};
+            \node[perceptronNode, right = 3cm of layerResolver](perceptron1){Perceptron 1};
+            \node[perceptronNode, right = 1cm of perceptron1, draw=none](perceptron2){\dots};
+            \node[perceptronNode, right = 1cm of perceptron2](perceptron3){Perceptron n};
+            % Draw arrows
+            \draw[->](layer.north) ++(-6.5,-0.5) -- ++(0,-0.75);
+            \draw[->](layer.north) ++(-5.75,-0.5) -- ++(0,-0.75);
+            \draw[->](layer.north) ++(-5,-0.5) -- ++(0,-0.75);
+            \draw[->](layerResolver.east) ++(0,0.4) -- ++(3,0) node[midway,sloped,yshift=0.25cm]{address};
+            \draw[->](layerResolver.east) ++(0,0) -- ++(3,0) node[midway,sloped,yshift=0.25cm]{data};
+            \draw[->](layerResolver.east) ++(0,-0.4) -- ++(3,0) node[midway,sloped,yshift=0.25cm]{load};
+
+        \end{tikzpicture}
+        \caption{Layer Level Hardware Model}
+        \label{fig:layerHardwareModel}
     \end{center}
 \end{figure}
-% Description of the Hardware
-
 
 \subsection{Software}
 % Block Diagram of Software Components
