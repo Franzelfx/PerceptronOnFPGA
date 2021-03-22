@@ -1,14 +1,14 @@
 # Fdb version 3
-["bibtex perceptron"] 1613751041 "perceptron.aux" "perceptron.bbl" "perceptron" 1613751043
+["bibtex perceptron"] 1615924253 "perceptron.aux" "perceptron.bbl" "perceptron" 1615924253
   "/usr/local/texlive/2020/texmf-dist/bibtex/bst/base/ieeetr.bst" 1292289607 18361 1a00e58565e7f19bf2b3e1bfb82254ae ""
-  "perceptron.aux" 1613751042 3272 cf26899f5555f3e0f4f43b361ac79899 "pdflatex"
+  "perceptron.aux" 1615924252 3502 d0e412e35c012d148fdeb03d03db4887 "pdflatex"
   "references.bib" 0 -1 0 ""
   (generated)
-  "perceptron.bbl"
   "perceptron.blg"
-["pdflatex"] 1613751041 "/Users/FabianFranz/Desktop/Studium/4.Semester/Digitaldesign/PerceptronOnFPGA/latex/perceptron.tex" "/Users/FabianFranz/Desktop/Studium/4.Semester/Digitaldesign/PerceptronOnFPGA/latex/perceptron.pdf" "perceptron" 1613751043
-  "/Users/FabianFranz/Desktop/Studium/4.Semester/Digitaldesign/PerceptronOnFPGA/latex/perceptron.aux" 1613751042 3272 cf26899f5555f3e0f4f43b361ac79899 ""
-  "/Users/FabianFranz/Desktop/Studium/4.Semester/Digitaldesign/PerceptronOnFPGA/latex/perceptron.tex" 1613751040 14131 332c658844f10e93041664d50b346545 ""
+  "perceptron.bbl"
+["pdflatex"] 1615924251 "/Users/FabianFranz/Desktop/Studium/4.Semester/Digitaldesign/PerceptronOnFPGA/Documentation/perceptron.tex" "/Users/FabianFranz/Desktop/Studium/4.Semester/Digitaldesign/PerceptronOnFPGA/Documentation/perceptron.pdf" "perceptron" 1615924253
+  "/Users/FabianFranz/Desktop/Studium/4.Semester/Digitaldesign/PerceptronOnFPGA/Documentation/perceptron.aux" 1615924252 3502 d0e412e35c012d148fdeb03d03db4887 ""
+  "/Users/FabianFranz/Desktop/Studium/4.Semester/Digitaldesign/PerceptronOnFPGA/Documentation/perceptron.tex" 1615924250 15105 ea11c34d28364308595e1eb0d03bcaea ""
   "/usr/local/texlive/2020/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2020/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
   "/usr/local/texlive/2020/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1246382020 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -194,14 +194,14 @@
   "/usr/local/texlive/2020/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1601638190 5021955 10beff57107128784ad1cb279990c29f ""
   "/usr/local/texlive/2020/texmf-var/web2c/pdftex/pdflatex.fmt" 1601638290 2445641 2ba1ce0f20611bf8678476ebd0bcdc59 ""
   "/usr/local/texlive/2020/texmf.cnf" 1586288231 577 d60164b4589a341208aff7a667fbbdcb ""
-  "perceptron.aux" 1613751042 3272 cf26899f5555f3e0f4f43b361ac79899 "pdflatex"
+  "perceptron.aux" 1615924252 3502 d0e412e35c012d148fdeb03d03db4887 "pdflatex"
   "perceptron.bbl" 0 -1 0 "bibtex perceptron"
-  "perceptron.out" 1613751042 789 2b9ecceb1645fbe558584169e211a04b "pdflatex"
-  "perceptron.tex" 1613751040 14131 332c658844f10e93041664d50b346545 ""
+  "perceptron.out" 1615924252 789 2b9ecceb1645fbe558584169e211a04b "pdflatex"
+  "perceptron.tex" 1615924250 15105 ea11c34d28364308595e1eb0d03bcaea ""
   (generated)
-  "/Users/FabianFranz/Desktop/Studium/4.Semester/Digitaldesign/PerceptronOnFPGA/latex/perceptron.log"
-  "perceptron.aux"
-  "perceptron.log"
-  "/Users/FabianFranz/Desktop/Studium/4.Semester/Digitaldesign/PerceptronOnFPGA/latex/perceptron.pdf"
   "perceptron.pdf"
   "perceptron.out"
+  "/Users/FabianFranz/Desktop/Studium/4.Semester/Digitaldesign/PerceptronOnFPGA/Documentation/perceptron.pdf"
+  "perceptron.log"
+  "/Users/FabianFranz/Desktop/Studium/4.Semester/Digitaldesign/PerceptronOnFPGA/Documentation/perceptron.log"
+  "perceptron.aux"
