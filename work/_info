@@ -15,7 +15,7 @@ Z1 DPx4 ieee 9 math_real 0 22 gNk<PdFJ<XNPcfef`f?Z81
 Z2 DPx4 ieee 11 numeric_std 0 22 aU^R8eGcicLcUFIaBQSL>3
 Z3 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
 Z4 DPx4 ieee 14 std_logic_1164 0 22 cVAk:aDinOX8^VGI1ekP<3
-!i122 128
+!i122 132
 Z5 d/home/fabian/git/PerceptronOnFPGA
 Z6 8/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Modules/layer_resolver.vhdl
 Z7 F/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Modules/layer_resolver.vhdl
@@ -25,9 +25,9 @@ VM:V:3QENALPWaN2QC88>l0
 !s100 o_GOMT@]0SW9ETTeUGOnJ2
 Z8 OV;C;2020.1;71
 32
-Z9 !s110 1618429213
+Z9 !s110 1618859408
 !i10b 1
-Z10 !s108 1618429213.000000
+Z10 !s108 1618859408.000000
 Z11 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Modules/layer_resolver.vhdl|
 Z12 !s107 /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Modules/layer_resolver.vhdl|
 !i113 1
@@ -39,7 +39,7 @@ R2
 R3
 R4
 DEx4 work 14 layer_resolver 0 22 M:V:3QENALPWaN2QC88>l0
-!i122 128
+!i122 132
 l30
 L29 31
 VE7]of7dI6AASD7hE^LRFd1
@@ -60,7 +60,7 @@ Z16 DPx3 std 3 env 0 22 d?`1ck@NdeD@H3RZG7FgZ2
 R2
 R3
 R4
-!i122 129
+!i122 133
 R5
 Z17 8/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/layer_resolver_tb.vhdl
 Z18 F/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/layer_resolver_tb.vhdl
@@ -84,7 +84,7 @@ R2
 R3
 R4
 DEx4 work 17 layer_resolver_tb 0 22 ?FhA:CeDH>S=[BhncHb5Q2
-!i122 129
+!i122 133
 l40
 L9 86
 VC;Lo_KQ_k;8dg=SWoELaj0
@@ -105,7 +105,7 @@ R1
 R2
 R3
 R4
-!i122 127
+!i122 131
 R5
 Z22 8/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Modules/top_level_resolver.vhdl
 Z23 F/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Modules/top_level_resolver.vhdl
@@ -129,7 +129,7 @@ R2
 R3
 R4
 DEx4 work 18 top_level_resolver 0 22 7MnS2i=APBW5^fT:U]6]73
-!i122 127
+!i122 131
 l28
 L27 38
 V`O3ZRjm8N9@c0>Cej_HU53
@@ -150,7 +150,7 @@ R16
 R2
 R3
 R4
-!i122 130
+!i122 134
 R5
 Z27 8/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/top_level_resolver_tb.vhdl
 Z28 F/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/top_level_resolver_tb.vhdl
@@ -160,11 +160,11 @@ V116RJ06mbe<S4I8=3ZoL>3
 !s100 jed0HR:dRl^VHk>jKb<]51
 R8
 32
-Z29 !s110 1618429214
+R9
 !i10b 1
 R10
-Z30 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/top_level_resolver_tb.vhdl|
-Z31 !s107 /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/top_level_resolver_tb.vhdl|
+Z29 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/top_level_resolver_tb.vhdl|
+Z30 !s107 /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/top_level_resolver_tb.vhdl|
 !i113 1
 R13
 R14
@@ -173,19 +173,19 @@ R16
 R2
 R3
 R4
-Z32 DEx4 work 21 top_level_resolver_tb 0 22 116RJ06mbe<S4I8=3ZoL>3
-!i122 130
+Z31 DEx4 work 21 top_level_resolver_tb 0 22 116RJ06mbe<S4I8=3ZoL>3
+!i122 134
 l46
-Z33 L9 83
-Z34 VRi<63ZIL3mn36iakjWMdQ3
-Z35 !s100 5H<n0o?2B_4?<NRR`Q>Z90
+Z32 L9 83
+Z33 VRi<63ZIL3mn36iakjWMdQ3
+Z34 !s100 5H<n0o?2B_4?<NRR`Q>Z90
 R8
 32
-R29
+R9
 !i10b 1
 R10
+R29
 R30
-R31
 !i113 1
 R13
 R14
