@@ -17,10 +17,10 @@ entity layer_resolver is
   port (
     clk         : in std_logic;
     reset       : in std_logic;
-    address_in  : in std_logic_vector(8 downto 0);
+    address_in  : in std_logic_vector(10 downto 0);
     data_in     : in std_logic_vector(3 downto 0);
     load_in     : in std_logic;
-    address_out : out std_logic_vector(4 downto 0);
+    address_out : out std_logic_vector(6 downto 0);
     data_out    : out std_logic_vector(3 downto 0);
     load_out    : out std_logic
   );
@@ -39,10 +39,10 @@ begin
       else
         -- detect valid address
         if (load_in = '1') then
-          if (to_integer(unsigned(address_in)) >= layer_count * 32) and
-            (to_integer(unsigned(address_in)) < (layer_count + 1) * 32) then
+          if (to_integer(unsigned(address_in)) >= layer_count * 80) and
+            (to_integer(unsigned(address_in)) < (layer_count + 1) * 80) then
             -- forward the address and data
-            perceptron_address := (to_integer(unsigned(address_in)) - layer_count * 32);
+            perceptron_address := (to_integer(unsigned(address_in)) - layer_count * 80);
             address_out <= std_logic_vector(to_unsigned(perceptron_address, address_out'length));
             data_out    <= data_in;
             load_out    <= load_in;
