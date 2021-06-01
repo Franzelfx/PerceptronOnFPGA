@@ -51,10 +51,11 @@ begin
   check_beh : process
   begin
     -- default values
-    data         <= (others => 'Z');
-    load         <= 'Z';
-    address      <= (others => 'Z');
-    dentrid_port <= (others => 'Z');
+    reset        <= '0';
+    dentrid_port <= (others => '0');
+    address      <= (others => '0');
+    data         <= (others => '0');
+    load         <= '0';
     wait for clk_period;
     reset <= '1';
     wait for clk_period;
@@ -114,8 +115,23 @@ begin
     -- check the programmed values and output behaviour
     dentrid_port <= "1111111111111111";
     wait for 2 * clk_period;
+    load <= '1';
+    wait for clk_period;
+    load <= '0';
+    wait for clk_period;
     dentrid_port <= "1111111111111110";
     wait for 2 * clk_period;
+    load <= '1';
+    wait for clk_period;
+    load <= '0';
+    wait for clk_period;
+    dentrid_port <= "1111111111111111";
+    wait for 2 * clk_period;
+    load <= '1';
+    wait for clk_period;
+    load <= '0';
+    wait for clk_period;
+    report "Simulation Stop";
     stop;
   end process;
 end;

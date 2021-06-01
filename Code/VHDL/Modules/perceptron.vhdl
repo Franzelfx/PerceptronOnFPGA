@@ -16,12 +16,12 @@ use ieee.math_real.all;
 
 entity perceptron is
   generic (
-    perceptron_id : integer range 0 to 16 --! The ID of the perceptron in the specific layer.
+    perceptron_id : integer range 0 to 15 --! The ID of the perceptron in the specific layer.
   );
   port (
     reset        : in std_logic; --! Reset inputs and outputs of the entity to default values.
     dentrid_port : in std_logic_vector(15 downto 0); --! Input from previous layer.
-    axon_port    : out std_logic := 'Z'; --! Output to next layer.
+    axon_port    : out std_logic := '0'; --! Output to next layer.
     address      : in std_logic_vector(6 downto 0); --! Current address for parameter manipulation.
     data         : in std_logic_vector(3 downto 0); --! Value of the addressed parameter.
     load         : in std_logic --! Signal to actually store the addressed parameter value.
@@ -30,39 +30,33 @@ end entity;
 
 architecture rtl of perceptron is
   -- the two parameters of the perceptron
-  signal activation_value  : unsigned (3 downto 0); --! Threshold parameter for input count until output is set to one.
-  signal sensitivity_value : unsigned (15 downto 0); --! Determine whis inputs are activated and counted.
+  signal activation_value  : unsigned (3 downto 0)  := (others => '0'); --! Threshold parameter for input count until output is set to one.
+  signal sensitivity_value : unsigned (15 downto 0) := (others => '0'); --! Determine whis inputs are activated and counted.
   -- needs to be split into 4 vectors
-  signal sens_1 : unsigned (3 downto 0);
-  signal sens_2 : unsigned (7 downto 4);
-  signal sens_3 : unsigned (11 downto 8);
-  signal sens_4 : unsigned (15 downto 12);
+  signal sens_1 : unsigned (3 downto 0)   := (others => '0');
+  signal sens_2 : unsigned (7 downto 4)   := (others => '0');
+  signal sens_3 : unsigned (11 downto 8)  := (others => '0');
+  signal sens_4 : unsigned (15 downto 12) := (others => '0');
 begin
 
   beh : process (load, reset, dentrid_port) is
-    variable count     : unsigned(3 downto 0);
-    variable old_value : std_logic_vector (15 downto 0);
+    variable count     : unsigned(3 downto 0)           := (others => '0');
+    variable old_value : std_logic_vector (15 downto 0) := (others => '0');
   begin
     -- reset handling
     if (reset = '1') then
       axon_port         <= '0';
-      activation_value  <= (others => 'Z');
-      sensitivity_value <= (others => 'Z');
-      sens_1            <= (others => 'Z');
-      sens_2            <= (others => 'Z');
-      sens_3            <= (others => 'Z');
-      sens_4            <= (others => 'Z');
+      activation_value  <= (others => '0');
+      sensitivity_value <= (others => '0');
+      sens_1            <= (others => '0');
+      sens_2            <= (others => '0');
+      sens_3            <= (others => '0');
+      sens_4            <= (others => '0');
       count     := (others         => '0');
       old_value := (others         => '0');
     else
       -- value storage handling
       if load = '1' then
-        -- update axon
-        if (count = activation_value) then
-          axon_port <= '1';
-        else
-          axon_port <= '0';
-        end if;
         -- check if the current perceptron is meant (first 4 Bit)
         if (shift_right((unsigned(address) and "1111000"), 3) = perceptron_id) then
           -- check the parameters (last 3 Bit)
@@ -94,6 +88,12 @@ begin
           end if;
         end loop; -- counter
         old_value := dentrid_port;
+        -- update axon
+        if (count = activation_value) then
+          axon_port <= '1';
+        else
+          axon_port <= '0';
+        end if;
       end if;
     end if;
   end process;
