@@ -29,6 +29,9 @@ entity perceptron is
 end entity;
 
 architecture rtl of perceptron is
+  ----------------------
+  -- internal signals --
+  ----------------------
   -- the two parameters of the perceptron
   signal activation_value  : unsigned (3 downto 0)  := (others => '0'); --! Threshold parameter for input count until output is set to one.
   signal sensitivity_value : unsigned (15 downto 0) := (others => '0'); --! Determine whis inputs are activated and counted.
@@ -43,7 +46,9 @@ begin
     variable count     : unsigned(3 downto 0)           := (others => '0');
     variable old_value : std_logic_vector (15 downto 0) := (others => '0');
   begin
-    -- reset handling
+    --------------------
+    -- reset handling --
+    --------------------
     if (reset = '1') then
       axon_port         <= '0';
       activation_value  <= (others => '0');
@@ -55,7 +60,9 @@ begin
       count     := (others         => '0');
       old_value := (others         => '0');
     else
-      -- value storage handling
+      ----------------------------
+      -- value storage handling --
+      ----------------------------
       if load = '1' then
         -- check if the current perceptron is meant (first 4 Bit)
         if (shift_right((unsigned(address) and "1111000"), 3) = perceptron_id) then
@@ -78,7 +85,9 @@ begin
         end if;
         sensitivity_value <= sens_4 & sens_3 & sens_2 & sens_1;
       end if;
-      -- output handling
+      ---------------------
+      -- output handling --
+      ---------------------
       if dentrid_port /= old_value then
         -- count over all Bits and proceed sensitivity and and output activation
         count := "0000";

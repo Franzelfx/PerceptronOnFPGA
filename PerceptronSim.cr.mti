@@ -8,6 +8,39 @@ Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 
 ** Warning: /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/top_level_resolver_tb.vhdl(4): (vcom-1516) Package "STD.ENV" does not exist in this language version.
 -- Compiling entity top_level_resolver_tb
 -- Compiling architecture bench of top_level_resolver_tb
+-- Compiling configuration one
+-- Loading entity top_level_resolver_tb
+-- Loading architecture bench of top_level_resolver_tb
+-- Loading package MATH_REAL
+-- Loading entity top_level_resolver
+
+} {} {}} /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Modules/top_level_resolver.vhdl {1 {vcom -work work -2002 -explicit -stats=none /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Modules/top_level_resolver.vhdl
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Loading package MATH_REAL
+-- Compiling entity top_level_resolver
+-- Compiling architecture rtl of top_level_resolver
+
+} {} {}} /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/storage_tb.vhdl {2 {vcom -work work -2002 -explicit -stats=none /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/storage_tb.vhdl
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Loading package ENV
+** Warning: /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/storage_tb.vhdl(4): (vcom-1516) Package "STD.ENV" does not exist in this language version.
+-- Compiling entity storage_tb
+-- Compiling architecture bench of storage_tb
+-- Compiling configuration one
+-- Loading entity storage_tb
+-- Loading architecture bench of storage_tb
+-- Loading package std_logic_arith
+-- Loading package STD_LOGIC_UNSIGNED
+-- Loading package MATH_REAL
+-- Loading entity storage
 
 } {} {}} /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/perceptron_tb.vhdl {2 {vcom -work work -2002 -explicit -stats=none /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/perceptron_tb.vhdl
 Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
@@ -19,6 +52,39 @@ Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 
 ** Warning: /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/perceptron_tb.vhdl(4): (vcom-1516) Package "STD.ENV" does not exist in this language version.
 -- Compiling entity perceptron_tb
 -- Compiling architecture bench of perceptron_tb
+-- Compiling configuration one
+-- Loading entity perceptron_tb
+-- Loading architecture bench of perceptron_tb
+-- Loading package std_logic_arith
+-- Loading package STD_LOGIC_UNSIGNED
+-- Loading package MATH_REAL
+-- Loading entity perceptron
+
+} {} {}} /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Modules/layer_resolver.vhdl {1 {vcom -work work -2002 -explicit -stats=none /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Modules/layer_resolver.vhdl
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Loading package MATH_REAL
+-- Compiling entity layer_resolver
+-- Compiling architecture rtl of layer_resolver
+
+} {} {}} /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/layer_resolver_tb.vhdl {2 {vcom -work work -2002 -explicit -stats=none /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/layer_resolver_tb.vhdl
+Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Loading package ENV
+** Warning: /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/layer_resolver_tb.vhdl(4): (vcom-1516) Package "STD.ENV" does not exist in this language version.
+-- Compiling entity layer_resolver_tb
+-- Compiling architecture bench of layer_resolver_tb
+-- Compiling configuration one
+-- Loading entity layer_resolver_tb
+-- Loading architecture bench of layer_resolver_tb
+-- Loading package MATH_REAL
+-- Loading entity layer_resolver
 
 } {} {}} /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Modules/perceptron.vhdl {1 {vcom -work work -2002 -explicit -stats=none /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Modules/perceptron.vhdl
 Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
@@ -31,26 +97,5 @@ Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 
 -- Loading package MATH_REAL
 -- Compiling entity perceptron
 -- Compiling architecture rtl of perceptron
-
-} {} {}} /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/layer_resolver_tb.vhdl {2 {vcom -work work -2002 -explicit -stats=none /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/layer_resolver_tb.vhdl
-Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
--- Loading package STANDARD
--- Loading package TEXTIO
--- Loading package std_logic_1164
--- Loading package NUMERIC_STD
--- Loading package ENV
-** Warning: /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/layer_resolver_tb.vhdl(4): (vcom-1516) Package "STD.ENV" does not exist in this language version.
--- Compiling entity layer_resolver_tb
--- Compiling architecture bench of layer_resolver_tb
-
-} {} {}} /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Modules/layer_resolver.vhdl {1 {vcom -work work -2002 -explicit -stats=none /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Modules/layer_resolver.vhdl
-Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
--- Loading package STANDARD
--- Loading package TEXTIO
--- Loading package std_logic_1164
--- Loading package NUMERIC_STD
--- Loading package MATH_REAL
--- Compiling entity layer_resolver
--- Compiling architecture rtl of layer_resolver
 
 } {} {}}

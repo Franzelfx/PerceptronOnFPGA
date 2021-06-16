@@ -3,6 +3,12 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use std.env.stop;
 
+--! @title Top Level Resolver
+--! @file top_level_resolver.vhdl
+--! @author Fabian Franz (fabian.franz0596@gmail.com)
+--! @version 0.1
+--! @date 18.05.2021
+
 entity top_level_resolver_tb is
 end;
 
@@ -67,13 +73,17 @@ begin
     load_in    <= '0';
     wait for 2 * clk_period;
     reset <= '0';
-    -- addressing the layer (9Bit address and 4Bit data)
+    -------------------------------------------------------
+    -- addressing the layer (9Bit address and 4Bit data) --
+    -------------------------------------------------------
     mode       <= '0';
     load_in    <= '1';
     address_in <= "0010100101";
     data_in    <= "0000000000001101";
     wait for 2 * clk_period;
-    -- addressing the storage
+    ----------------------------
+    -- addressing the storage --
+    ----------------------------
     mode       <= '1';
     load_in    <= '1';
     address_in <= "0110110000";
@@ -84,3 +94,13 @@ begin
   end process;
 
 end;
+------------------------------------
+-- Configuration for the instance --
+------------------------------------
+configuration one of top_level_resolver_tb is
+  for bench
+    for top_level_resolver_inst : top_level_resolver
+      use entity work.top_level_resolver(rtl);
+    end for;
+  end for;
+end configuration one;

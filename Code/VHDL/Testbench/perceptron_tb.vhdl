@@ -3,6 +3,12 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use std.env.stop;
 
+--! @title perceptron_tb
+--! @file pereptron.vhdl
+--! @author Fabian Franz (fabian.franz0596@gmail.com)
+--! @version 0.1
+--! @date 18.05.2021
+
 entity perceptron_tb is
 end;
 
@@ -50,7 +56,9 @@ begin
 
   check_beh : process
   begin
-    -- default values
+    --------------------
+    -- default values --
+    --------------------
     reset        <= '0';
     dentrid_port <= (others => '0');
     address      <= (others => '0');
@@ -61,7 +69,9 @@ begin
     wait for clk_period;
     reset <= '0';
     wait for clk_period;
-    -- set activation value to 16
+    --------------------------
+    -- set activation value --
+    --------------------------
     address <= "0000000";
     wait for clk_period;
     data <= "1111";
@@ -70,7 +80,9 @@ begin
     wait for clk_period;
     load <= '0';
     wait for clk_period;
-    -- set a sensitivity value
+    -----------------------------
+    -- set a sensitivity value --
+    -----------------------------
     -- sens_1
     address <= "0000001";
     wait for clk_period;
@@ -112,7 +124,9 @@ begin
     wait for clk_period;
     load <= '0';
     wait for clk_period;
-    -- check the programmed values and output behaviour
+    ------------------------------------------------------
+    -- check the programmed values and output behaviour --
+    ------------------------------------------------------
     dentrid_port <= "1111111111111111";
     wait for 2 * clk_period;
     load <= '1';
@@ -135,3 +149,13 @@ begin
     stop;
   end process;
 end;
+------------------------------------
+-- Configuration for the instance --
+------------------------------------
+configuration one of perceptron_tb is
+  for bench
+    for perceptron_inst : perceptron
+      use entity work.perceptron(rtl);
+    end for;
+  end for;
+end configuration one;
