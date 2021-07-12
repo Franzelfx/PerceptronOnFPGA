@@ -7,7 +7,6 @@ vsim work.layer_resolver_tb(bench)
 
 onerror {resume}
 quietly WaveActivateNextPane {} 0
-add wave -noupdate /layer_resolver_tb/clk
 add wave -noupdate /layer_resolver_tb/reset
 add wave -noupdate -divider input
 add wave -noupdate /layer_resolver_tb/address_in

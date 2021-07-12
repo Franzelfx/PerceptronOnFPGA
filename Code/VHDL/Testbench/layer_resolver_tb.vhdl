@@ -19,7 +19,6 @@ architecture bench of layer_resolver_tb is
       layer_count : integer range 0 to 16
     );
     port (
-      clk         : in std_logic;
       reset       : in std_logic;
       address_in  : in std_logic_vector(10 downto 0);
       data_in     : in std_logic_vector(3 downto 0);
@@ -34,7 +33,6 @@ architecture bench of layer_resolver_tb is
   constant clk_period : time := 5 ns;
 
   -- Ports
-  signal clk         : std_logic;
   signal reset       : std_logic;
   signal address_in  : std_logic_vector(10 downto 0);
   signal data_in     : std_logic_vector(3 downto 0);
@@ -50,7 +48,6 @@ begin
     layer_count => 1
   )
   port map(
-    clk         => clk,
     reset       => reset,
     address_in  => address_in,
     data_in     => data_in,
@@ -59,17 +56,6 @@ begin
     data_out    => data_out,
     load_out    => load_out
   );
-
-  ----------------------------
-  -- simple clock mechanism --
-  ----------------------------
-  clk_process : process
-  begin
-    clk <= '1';
-    wait for clk_period/2;
-    clk <= '0';
-    wait for clk_period/2;
-  end process clk_process;
 
   ----------------------------------
   -- general module function test --

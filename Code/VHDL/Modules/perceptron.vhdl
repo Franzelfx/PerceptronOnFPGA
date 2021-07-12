@@ -33,7 +33,7 @@ architecture rtl of perceptron is
   -- internal signals --
   ----------------------
   -- the two parameters of the perceptron
-  signal activation_value  : unsigned (3 downto 0)  := (others => '0'); --! Threshold parameter for input count until output is set to one.
+  signal activation_value  : unsigned (3 downto 0)  := (others => '1'); --! Threshold parameter for input count until output is set to one.
   signal sensitivity_value : unsigned (15 downto 0) := (others => '0'); --! Determine whis inputs are activated and counted.
   -- needs to be split into 4 vectors
   signal sens_1 : unsigned (3 downto 0)   := (others => '0');
@@ -42,7 +42,7 @@ architecture rtl of perceptron is
   signal sens_4 : unsigned (15 downto 12) := (others => '0');
 begin
 
-  beh : process (load, reset, dentrid_port) is
+  beh : process (load, reset, dentrid_port, address, data) is
     variable count     : unsigned(3 downto 0)           := (others => '0');
     variable old_value : std_logic_vector (15 downto 0) := (others => '0');
   begin
@@ -51,7 +51,7 @@ begin
     --------------------
     if (reset = '1') then
       axon_port         <= '0';
-      activation_value  <= (others => '0');
+      activation_value  <= (others => '1');
       sensitivity_value <= (others => '0');
       sens_1            <= (others => '0');
       sens_2            <= (others => '0');

@@ -18,10 +18,10 @@ architecture bench of top_level_resolver_tb is
     port (
       reset               : in std_logic;
       mode                : in std_logic;
-      address_in          : in std_logic_vector(9 downto 0);
+      address_in          : in std_logic_vector(10 downto 0);
       data_in             : in std_logic_vector(15 downto 0);
       load_in             : in std_logic;
-      address_out_layer   : out std_logic_vector(8 downto 0);
+      address_out_layer   : out std_logic_vector(10 downto 0);
       data_out_layer      : out std_logic_vector(3 downto 0);
       load_out_layer      : out std_logic;
       address_out_storage : out std_logic_vector(9 downto 0);
@@ -37,10 +37,10 @@ architecture bench of top_level_resolver_tb is
   -- Ports
   signal reset               : std_logic;
   signal mode                : std_logic;
-  signal address_in          : std_logic_vector(9 downto 0);
+  signal address_in          : std_logic_vector(10 downto 0);
   signal data_in             : std_logic_vector(15 downto 0);
   signal load_in             : std_logic;
-  signal address_out_layer   : std_logic_vector(8 downto 0);
+  signal address_out_layer   : std_logic_vector(10 downto 0);
   signal data_out_layer      : std_logic_vector(3 downto 0);
   signal load_out_layer      : std_logic;
   signal address_out_storage : std_logic_vector(9 downto 0);
@@ -68,7 +68,7 @@ begin
   begin
     reset      <= '1';
     mode       <= '0';
-    address_in <= "0000000000";
+    address_in <= "00000000000";
     data_in    <= "0000000000000000";
     load_in    <= '0';
     wait for 2 * clk_period;
@@ -78,7 +78,7 @@ begin
     -------------------------------------------------------
     mode       <= '0';
     load_in    <= '1';
-    address_in <= "0010100101";
+    address_in <= "00101001001";
     data_in    <= "0000000000001101";
     wait for 2 * clk_period;
     ----------------------------
@@ -86,7 +86,7 @@ begin
     ----------------------------
     mode       <= '1';
     load_in    <= '1';
-    address_in <= "0110110000";
+    address_in <= "01101100000";
     data_in    <= "0000000000000011";
     wait for 2 * clk_period;
     report "Simulation Stop";
