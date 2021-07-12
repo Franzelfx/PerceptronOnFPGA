@@ -16,15 +16,15 @@ use ieee.math_real.all;
 
 entity perceptron is
   generic (
-    perceptron_id : integer range 0 to 15 --! The ID of the perceptron in the specific layer.
+    perceptron_id : integer range 0 to 15 --! the ID of the perceptron in the specific layer
   );
   port (
-    reset        : in std_logic; --! Reset inputs and outputs of the entity to default values.
-    dentrid_port : in std_logic_vector(15 downto 0); --! Input from previous layer.
-    axon_port    : out std_logic := '0'; --! Output to next layer.
-    address      : in std_logic_vector(6 downto 0); --! Current address for parameter manipulation.
-    data         : in std_logic_vector(3 downto 0); --! Value of the addressed parameter.
-    load         : in std_logic --! Signal to actually store the addressed parameter value.
+    reset        : in std_logic; --! reset inputs and outputs of the entity to default values
+    dentrid_port : in std_logic_vector(15 downto 0); --! input from previous layer
+    axon_port    : out std_logic := '0'; --! output to next layer
+    address      : in std_logic_vector(6 downto 0); --! current address for parameter manipulation
+    data         : in std_logic_vector(3 downto 0); --! value of the addressed parameter
+    load         : in std_logic --! signal to actually store the addressed parameter value
   );
 end entity;
 
@@ -33,8 +33,8 @@ architecture rtl of perceptron is
   -- internal signals --
   ----------------------
   -- the two parameters of the perceptron
-  signal activation_value  : unsigned (3 downto 0)  := (others => '1'); --! Threshold parameter for input count until output is set to one.
-  signal sensitivity_value : unsigned (15 downto 0) := (others => '0'); --! Determine whis inputs are activated and counted.
+  signal activation_value  : unsigned (3 downto 0)  := (others => '1'); --! threshold parameter for input count until output is set to one
+  signal sensitivity_value : unsigned (15 downto 0) := (others => '0'); --! determine whis inputs are activated and counted.
   -- needs to be split into 4 vectors
   signal sens_1 : unsigned (3 downto 0)   := (others => '0');
   signal sens_2 : unsigned (7 downto 4)   := (others => '0');
@@ -42,7 +42,7 @@ architecture rtl of perceptron is
   signal sens_4 : unsigned (15 downto 12) := (others => '0');
 begin
 
-  beh : process (load, reset, dentrid_port, address, data) is
+  behaviour : process (load, reset, dentrid_port, address, data) is
     variable count     : unsigned(3 downto 0)           := (others => '0');
     variable old_value : std_logic_vector (15 downto 0) := (others => '0');
   begin

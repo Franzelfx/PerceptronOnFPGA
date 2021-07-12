@@ -16,13 +16,13 @@ use work.all;
 
 entity top_level_entity is
   port (
-    clk     : in std_logic;
-    reset   : in std_logic;
-    mode    : in std_logic;
-    address : in std_logic_vector(10 downto 0);
-    data    : in std_logic_vector(15 downto 0);
-    load    : in std_logic;
-    result  : out std_logic_vector(15 downto 0) := (others => '0')
+    clk     : in std_logic; --! global clock signal
+    reset   : in std_logic; --! global reset signal
+    mode    : in std_logic; --! select the direction '0' = layer, '1' = storage
+    address : in std_logic_vector(10 downto 0); --! the address of data storage in the layer or storage branch
+    data    : in std_logic_vector(15 downto 0); --! the actual data to store
+    load    : in std_logic; --! triggers the storage
+    result  : out std_logic_vector(15 downto 0) := (others => '0') --! the result from the last layer
   );
 end entity top_level_entity;
 
@@ -31,27 +31,27 @@ architecture rtl of top_level_entity is
   -- Internal Signals --
   ----------------------
   -- connection top level resolver to layer
-  signal address_int_layer : std_logic_vector(10 downto 0) := (others => '0');
-  signal data_int_layer    : std_logic_vector(3 downto 0)  := (others => '0');
-  signal load_int_layer    : std_logic                     := '0';
+  signal address_int_layer : std_logic_vector(10 downto 0) := (others => '0'); --! connect adress line of "Top Level Resolver" and "Layer Resolver"
+  signal data_int_layer    : std_logic_vector(3 downto 0)  := (others => '0'); --! connect data line of "Top Level Resolver" and "Layer Resolver"
+  signal load_int_layer    : std_logic                     := '0'; --! connect load line of "Top Level Resolver" and "Layer Resolver"
   -- connection top level resolver to storage
-  signal address_int_storage : std_logic_vector(9 downto 0)  := (others => '0');
-  signal data_int_storage    : std_logic_vector(15 downto 0) := (others => '0');
-  signal load_int_storage    : std_logic                     := '0';
+  signal address_int_storage : std_logic_vector(9 downto 0)  := (others => '0'); --! connect address line of "Top Level Resolver" and "Storage"
+  signal data_int_storage    : std_logic_vector(15 downto 0) := (others => '0'); --! connect data line of "Top Level Resolver" and "Storage"
+  signal load_int_storage    : std_logic                     := '0'; --! connect load line of "Top Level Resolver" and "Storage"
   -- connect storage to first layer
-  signal storage_to_first_layer : std_logic_vector(15 downto 0) := (others => '0');
+  signal storage_to_first_layer : std_logic_vector(15 downto 0) := (others => '0'); --! connect the storage output with the first layer
   -- layer connection arrays
   -- axon ports to next layer
   type arr_16_times_16 is array (0 to 14) of std_logic_vector(15 downto 0);
-  signal layer_axon_arr : arr_16_times_16; -- connect axon ports between layers
+  signal layer_axon_arr : arr_16_times_16; --! connect axon ports between layer and layer resolver
   -- address from layer resolver to layer
   type arr_16_times_7 is array (0 to 15) of std_logic_vector(6 downto 0);
-  signal address_layer_arr : arr_16_times_7; -- connect address ports between layers
+  signal address_layer_arr : arr_16_times_7; --! connect address ports between layer and layer resolver
   -- data from layer resolver to layer
   type arr_16_times_4 is array (0 to 15) of std_logic_vector(3 downto 0);
-  signal data_layer_arr : arr_16_times_4; --! connect data ports between layers
+  signal data_layer_arr : arr_16_times_4; --! connect data ports between layer and layer resolver
   -- load from layer resolver to layer
-  signal load_layer : std_logic_vector (15 downto 0);
+  signal load_layer : std_logic_vector (15 downto 0); --! connect load signal between layer and layer resolver
   ---------------------------
   -- component declaration --
   ---------------------------

@@ -11,29 +11,29 @@ use ieee.math_real.all;
 
 --! This module is designed for resolving the signals in every
 --! single layer of the multilayer perceptron.
---! The addresss resolving is based on the "layer_count" variable, which
+--! The address resolving is based on the "layer_count" variable, which
 --! determine the number of every single layer in the whole multilayer perceptron.
---! Based on this number, the address is forwarded by a 4-Bit bus to single 
---! perceptrons in the layer.
+--! Based on this number, the address is forwarded by a 7-Bit bus to the 
+--! single perceptrons in the layer.
 
 entity layer_resolver is
   generic (
-    layer_count : integer range 0 to 16
+    layer_count : integer range 0 to 16 --! identifier for the current layer
   );
   port (
-    reset       : in std_logic;
-    address_in  : in std_logic_vector(10 downto 0);
-    data_in     : in std_logic_vector(3 downto 0);
-    load_in     : in std_logic;
-    address_out : out std_logic_vector(6 downto 0) := (others => '0');
-    data_out    : out std_logic_vector(3 downto 0) := (others => '0');
-    load_out    : out std_logic                    := '0'
+    reset       : in std_logic; --! reset to default output values
+    address_in  : in std_logic_vector(10 downto 0); --! input address from "Top Level Resolver"
+    data_in     : in std_logic_vector(3 downto 0); --! input data from "Top Level resolver"
+    load_in     : in std_logic; --! load input from "Top Level Resolver"
+    address_out : out std_logic_vector(6 downto 0) := (others => '0'); --! addressing the sensitivity and activation value in the "Perceptron"
+    data_out    : out std_logic_vector(3 downto 0) := (others => '0'); --! the actual value for sensitivity and activation in the "Perceptron"
+    load_out    : out std_logic                    := '0' --! triggers the storage in the "Perceptron"
   );
 end entity;
 
 architecture rtl of layer_resolver is
 begin
-  process (address_in, reset, load_in, data_in) is
+  behaviour : process (address_in, reset, load_in, data_in) is
     variable perceptron_address : integer range 0 to 15;
   begin
     if reset = '1' then

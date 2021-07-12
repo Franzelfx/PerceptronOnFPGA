@@ -15,20 +15,20 @@ use ieee.math_real.all;
 
 entity storage is
   port (
-    clk                : in std_logic;
-    reset              : in std_logic;
-    address_in_storage : in std_logic_vector(9 downto 0);
-    data_in_storage    : in std_logic_vector(15 downto 0);
-    load_in_storage    : in std_logic;
-    layer_output       : out std_logic_vector (15 downto 0) := (others => '0')
+    clk                : in std_logic; --! clock for iteration over storage values
+    reset              : in std_logic; --! reset to set default values
+    address_in_storage : in std_logic_vector(9 downto 0); --! address where tha value have to be stored
+    data_in_storage    : in std_logic_vector(15 downto 0); --! actual data which have to be stored
+    load_in_storage    : in std_logic; --! trigger the storage
+    layer_output       : out std_logic_vector (15 downto 0) := (others => '0') --! output to the first layer
   );
 end entity;
 architecture rtl of storage is
   -- 1024 times a 16Bit value array = size of 16384
-  type arr_1024_times_16 is array (0 to 1023) of std_logic_vector(15 downto 0);
-  signal stored_value : arr_1024_times_16; --! The one dimensional array of values.
+  type arr_1024_times_16 is array (0 to 1023) of std_logic_vector(15 downto 0); --! the one dimensional array of stored values
+  signal stored_value : arr_1024_times_16;
 begin
-  process (load_in_storage, clk, reset)
+  behaviour : process (load_in_storage, clk, reset)
     variable count : integer range 0 to 1023;
   begin
     --------------------
