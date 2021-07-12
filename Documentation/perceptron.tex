@@ -3,7 +3,7 @@
 % Author: Fabian Franz
 
 % Packages and Modules
-\documentclass{report}
+\documentclass{article}
 \usepackage{array}
 \usepackage{amsmath}
 \usepackage{hyperref}
@@ -14,6 +14,8 @@
 \usepackage[a4paper, margin=1in]{geometry}
 \usepackage{tikz}
 \usepackage{float}
+\usepackage{mathrsfs}
+\usepackage[section]{placeins}
 
 % Tikz config
 \usetikzlibrary{calc}
@@ -39,17 +41,17 @@
 \begin{document}
 \maketitle
 
-% Abstract
-\begin{abstract}
-\end{abstract}
+\pagebreak
+\tableofcontents
+\pagebreak
 
 % Introduction
-\chapter{Introduction}
+\section{Introduction}
 This project has the claim to design a low-power neural network on an FPGA.
 To do so, the next sections give a brief introduction to the basic
 principles of how such a neural network can be modeled.
 
-\section{Perceptron}
+\subsection{Perceptron}
 A perceptron describes an analog model of a biological human cell in the
 computer domain. This perceptron can be described with the following graphical
 and mathematical expressions:
@@ -133,22 +135,13 @@ of such a perceptron can be handled by given hardware architecture like GPU's
 or matrix multiplier, because of the possibility to proceed every input matrix
 and their associated weight matrix independently.
 
-\section{Activation function}
+\subsection{Activation function}
 The activation function of a perceptron has the purpose to determines the
 behavior of the perceptron in response to external stimuli. There are different
-kinds of activation functions which can be used for different purpuse. The most
-common used one is the so called signoid function:
+kinds of activation functions which can be used for different purpuse.
 
-\section{Multilayer perceptron}
-
-\section{Loss optimization}
-
-% Method
-\chapter{Method}
-
-\section{Design}
-
-\subsection{Hardware}
+\pagebreak
+\section{Design Overview}
 The hardware of this project consist of a 32-bit microcontroller named SAM D21/DA1 and a
 Cyclone 10 FPGA. Both chips are placed on a board, so called Arduino Vidor 4000. This board
 comes with an USB interface, which will be the communication between frontend (PC) and
@@ -156,13 +149,13 @@ the executing hardware. The figure \ref{fig:abstractHardwareDescription} show th
 abstract hardware model. This model show the mentioned frontend and hardware, but also the
 "Top Level Resolver", which distribute the data to either the storage, which holds the data to
 be proceed, or the new settings for the single perceptron activation functions. In the concret
-model, the address line has a size of 9-Bit and the data line a size of 4-Bit. This results
+model, the address line has a size of 11-Bit and the data line a size of 4-Bit. This results
 in a maximum count of 256 perceptrons in 16 layers, if one perceptron of the incomming layer
 is connected with all perceptrons of the previous outgoing layer. The load line tell the single
 perceptrons, that they can storage the new information after addressing. The address line needs to be a
-9-Bit one, causing the fact, that every oerceptron needs 2 informations to store. More related to this
+11-Bit one, causing the fact, that every oerceptron needs 5 informations to store. More related to this
 will be described later. For simlifity purpose, the clock and reset signals for every single module
-is removed in the figure.
+is not shown in the figure.
 
 % Top Level Hardware Model Diagram
 \begin{figure}[htbp]
@@ -255,11 +248,13 @@ is removed in the figure.
             \node[layerNode, below = 0.5cm of hidden2](output){Output layer};
             % Draw arrows
             \draw[->](frontend.east) -- ++(1.5,0) node[midway,above]{RS232};
-            \draw[->](samd21.east) ++(0,0.5) -- ++(1.5,0) node[midway,above]{mode};
-            \draw[->](samd21.east) -- ++(1.5,0) node[midway,above]{address};
-            \draw[->](samd21.east) ++(0,-0.5) -- ++(1.5,0) node[midway,above]{data};
-            \draw[->](resolver.east) ++(0,0.25) -- ++(1.5,0) node[midway,above]{data};
-            \draw[->](resolver.east) ++(0,-0.25) -- ++(1.5,0) node[midway,above]{load};
+            \draw[->](samd21.east) ++(0,1) -- ++(1.5,0) node[midway,above]{mode};
+            \draw[->](samd21.east) ++(0,0.3) -- ++(1.5,0) node[midway,above]{address};
+            \draw[->](samd21.east) ++(0,-0.3) -- ++(1.5,0) node[midway,above]{data};
+            \draw[->](samd21.east) ++(0,-1) -- ++(1.5,0) node[midway,above]{load};
+            \draw[->](resolver.east) ++(0,0.5) -- ++(1.5,0) node[midway,above]{address};
+            \draw[->](resolver.east) ++(0,0) -- ++(1.5,0) node[midway,above]{data};
+            \draw[->](resolver.east) ++(0,-0.5) -- ++(1.5,0) node[midway,above]{load};
             \draw[->](resolver.south) ++(-1.5,0) -- ++(0,-1) node[midway,sloped,right, rotate=90]{address};
             \draw[->](resolver.south) ++(0,0) -- ++(0,-1) node[midway,sloped,right, rotate=90]{data};
             \draw[->](resolver.south) ++(1.5,0) -- ++(0,-1) node[midway,sloped,right, rotate=90]{load};
@@ -286,9 +281,9 @@ is removed in the figure.
 
 Every layer of the hardware model consists of a "Layer Resolver", which takes care about the
 signal distribution to every single perceptron. This has the advantage, that the data lines
-inside the single layer model can be recduced. In the concrete hardware model, the 9-Bit
-address line go through all the layer resolvers, which split them in a 5-Bit address line, which
-is connected to every perceptron in the particular layer. The data line stay a 5-Bit and the load
+inside the single layer model can be recduced. In the concrete hardware model, the 11-Bit
+address line go through all the layer resolvers, which split them in a 7-Bit address line, which
+is connected to every perceptron in the particular layer. The data line stay a 4-Bit and the load
 line a 1-Bit connection and are simply y-splitted in the resolver.
 % Layer Level Hardware Model Diagram
 \begin{figure}[htbp]
@@ -347,6 +342,7 @@ line a 1-Bit connection and are simply y-splitted in the resolver.
         \label{fig:layerHardwareModel}
     \end{center}
 \end{figure}
+\FloatBarrier
 
 The perceptron itselfe consist of a two state input control instead of float point calculations. That
 means, that the connection from one perceptron output to an other perceptron input can only be active
@@ -354,33 +350,11 @@ or non active. Furthermore, the second parameter inside the perceptron is the ac
 is basically the summation over a count of input "high" signals. If the summation is greater than a given
 value, the output of the perceptron is pulled "high".
 
-\begin{figure}[htbp]
-    \begin{center}
-        \begin{tikzpicture} [>=latex', node distance = 2cm]
+\section{Implementation}
+The implemetation of the whole system is based on the hardware overview and splitted in different modules
+which finally get connected with each other.
 
-        \end{tikzpicture}
-        \caption{Perceptron Hardware Model}
-        \label{fig:perceptronHardwareModel}
-    \end{center}
-\end{figure}
+\section{Validation}
 
-\subsection{Software}
-% Block Diagram of Software Components
-% Semi Code
-% Structogram
-\section{Procedure}
 
-\subsection{Iplementation}
-% Actual code fragments (Model)
-
-\subsection{Validation}
-% Actual code fragments (Testbench)
-% Results
-
-\chapter{Results}
-
-\chapter{Discussion}
-
-\bibliography{references}
-\bibliographystyle{ieeetr}
 \end{document}
