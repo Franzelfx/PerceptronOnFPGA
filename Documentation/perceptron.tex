@@ -16,6 +16,56 @@
 \usepackage{float}
 \usepackage{mathrsfs}
 \usepackage[section]{placeins}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{pdfpages}
+\usepackage{etoolbox}
+
+% VHDL
+\lstdefinelanguage{VHDL}{
+    morekeywords=[1]{
+        library,use,all,entity,is,port,in,out,end,architecture,of,if,then,
+        begin,and,elsif,others,process,downto,variable,else,range,to,for,loop
+        },
+    morekeywords=[2]{ % name
+        behaviour
+        },
+    morekeywords=[3]{ % std
+        integer,unsigned
+    },
+    morekeywords=[4]{ % number
+        0,1,2,3,4,5,6,7,8,9
+    },
+    morekeywords=[5]{ % function
+        shift_right,rising_edge,to_integer
+    },
+  morecomment=[l]--
+}
+\colorlet{keyword}{red!100!black!80}
+\colorlet{comment}{gray!90!black!90}
+\colorlet{name}{yellow!90!black!90}
+\colorlet{std}{cyan!90!black!80}
+\colorlet{number}{purple!90!black!90}
+\colorlet{function}{green!70!black!90}
+\lstdefinestyle{vhdl}{
+  language     = VHDL,
+  basicstyle   = \ttfamily,
+  keywordstyle = [1]\color{keyword}\bfseries,
+  keywordstyle = [2]\color{name}\bfseries,
+  keywordstyle = [3]\color{std}\bfseries,
+  keywordstyle = [4]\color{number}\bfseries,
+  keywordstyle = [5]\color{function}\bfseries,
+  commentstyle = \color{comment}
+}
+\lstdefinestyle{myCustomMatlabStyle}{
+  language=VHDL,
+  numbers=left,
+  stepnumber=1,
+  numbersep=8pt,
+  tabsize=4,
+  showspaces=false,
+  showstringspaces=false,
+}
 
 % Tikz config
 \usetikzlibrary{calc}
@@ -33,9 +83,9 @@
         {\end{tabular}\par\vspace{\belowdisplayskip}}
 
 % Title
-\title{Synthesis of a Asynchronous Multilayer Perceptron on an FPGA}
-\author{Fabian Franz}
-\date{October 2020}
+\title{Synthese eines Asynchronen Multilayer Perceptron auf einem FPGA}
+\author{Fabian Franz, Matr. Nr.: 644414}
+\date{Juli 2021}
 
 % Start of the document
 \begin{document}
@@ -46,15 +96,15 @@
 \pagebreak
 
 % Introduction
-\section{Introduction}
-This project has the claim to design a low-power neural network on an FPGA.
-To do so, the next sections give a brief introduction to the basic
-principles of how such a neural network can be modeled.
+\section{Einführung}
+Dieses Projekt hat den Anspruch, ein stromsparendes neuronales Netzwerk auf einem FPGA zu
+entwerfen. Dazu geben die nächsten Abschnitte eine kurze Einführung in die grundlegenden
+Prinzipien, wie ein solches neuronales Netz modelliert werden kann.
 
 \subsection{Perceptron}
-A perceptron describes an analog model of a biological human cell in the
-computer domain. This perceptron can be described with the following graphical
-and mathematical expressions:
+Ein Perzeptron beschreibt ein analoges Modell einer biologischen menschlichen Zelle in
+Computerdomäne. Dieses Perzeptron kann mit der folgenden Grafik beschrieben und mathematisch
+formuliert werden:
 
 \begin{figure}[htbp]
     \begin{center}
@@ -111,51 +161,47 @@ and mathematical expressions:
             \draw[->](gx) edge (out);
         \end{tikzpicture}
     \end{center}
-    \caption{Model of perceptron}
+    \caption{Model des Perzeptron}
 \end{figure}
 \begin{equation}
     \hat y = g \Bigg( w_0 + \sum_{i=1}^{m}x_i w_i \Bigg)
 \end{equation}
-With:
+Mit:
 \begin{conditions}
-    g & Activation function \\
+    g & Aktivierungsfunktion \\
     w_o & Bias
 \end{conditions}
-In vector form:
+In Vektor form:
 \begin{equation}
     \hat y = g(W_0 + X^TW)
 \end{equation}
-With:
+Mit:
 \begin{conditions}
     W & $\begin{pmatrix} w_1 \\ \vdots \\ w_m \end{pmatrix}$ , X = $\begin{pmatrix} x_1 \\ \vdots \\ x_m \end{pmatrix}$
 \end{conditions}
-As seen, in a conventional model of a perceptron every input of an
-layer is multiplied by a weighting. It can be seen, that the implementation
-of such a perceptron can be handled by given hardware architecture like GPU's
-or matrix multiplier, because of the possibility to proceed every input matrix
-and their associated weight matrix independently.
+Wie man sieht, wird in einem conventionellen Multilayer-Perzeptron jeder Eingang mit einer
+ent-sprechenden Gewichtung multipliziert. Es ist zu erkennen, dass die Umsetzung
+eines solchen Perzeptrons von einer gegebenen Hardwarearchitektur wie GPUs oder 
+Matrix-Multiplizier-Einheiten abgearbeitet werden kann.
 
-\subsection{Activation function}
-The activation function of a perceptron has the purpose to determines the
-behavior of the perceptron in response to external stimuli. There are different
-kinds of activation functions which can be used for different purpuse.
+\subsection{Aktivierungsfunktion}
+Die Aktivierungsfunktion eines Perzeptrons hat den Zweck, das
+Verhalten des Perzeptrons als Reaktion auf äußere Reize zu beeinflussen. Es gibt 
+verschiedene Arten von Aktivierungsfunktionen, die für verschiedene Zwecke verwendet 
+werden können.
 
 \pagebreak
-\section{Design Overview}
-The hardware of this project consist of a 32-bit microcontroller named SAM D21/DA1 and a
-Cyclone 10 FPGA. Both chips are placed on a board, so called Arduino Vidor 4000. This board
-comes with an USB interface, which will be the communication between frontend (PC) and
-the executing hardware. The figure \ref{fig:abstractHardwareDescription} show the most
-abstract hardware model. This model show the mentioned frontend and hardware, but also the
-"Top Level Resolver", which distribute the data to either the storage, which holds the data to
-be proceed, or the new settings for the single perceptron activation functions. In the concret
-model, the address line has a size of 11-Bit and the data line a size of 4-Bit. This results
-in a maximum count of 256 perceptrons in 16 layers, if one perceptron of the incomming layer
-is connected with all perceptrons of the previous outgoing layer. The load line tell the single
-perceptrons, that they can storage the new information after addressing. The address line needs to be a
-11-Bit one, causing the fact, that every oerceptron needs 5 informations to store. More related to this
-will be described later. For simlifity purpose, the clock and reset signals for every single module
-is not shown in the figure.
+\section{Design Übersicht}
+\subsection{Top Level}
+Die Hardware dieses Projekts besteht aus einem 32-Bit-Mikrocontroller namens SAM D21/DA1 und einem
+Zyklon 10 FPGA. Beide Chips sind auf einem Board platziert, dem sogenannten Arduino Vidor 4000. Dieses Board
+kommt mit einer USB-Schnittstelle, die die Kommunikation zwischen dem Frontend (PC) und
+der ausführenden Hardware realisiert. Die Abbildung \ref{fig:abstractHardwareDescription} zeigt das
+abstrakte Hardwaremodell. Dieses Modell zeigt das erwähnte Frontend und die Hardware, aber auch den
+"Top Level Resolver", der die Daten entweder an den Speicher verteilt, oder die neuen Einstellungen 
+für die einzelnen Perceptron-Aktivierungsfunktionen. Im konreten Modell werden insgesamt
+16 Schichten mit 16 Perzeptronen pro Schicht realisiert. Der Einfachheit halber sind die 
+Takt- und Reset-Signale für jedes einzelne Modul in der Abbildung nicht dargestellt.
 
 % Top Level Hardware Model Diagram
 \begin{figure}[htbp]
@@ -274,17 +320,15 @@ is not shown in the figure.
             \draw[->](fpga.south) -- ++(0,-0.5) -| (samd21.south);
             \draw (samd21.south) ++(0.75,-0.25) node[]{output};
         \end{tikzpicture}
-        \caption{Top Level Hardware Model}
+        \caption{Top Level Hardware-Modell}
         \label{fig:abstractHardwareDescription}
     \end{center}
-\end{figure}\pagebreak
-
-Every layer of the hardware model consists of a "Layer Resolver", which takes care about the
-signal distribution to every single perceptron. This has the advantage, that the data lines
-inside the single layer model can be recduced. In the concrete hardware model, the 11-Bit
-address line go through all the layer resolvers, which split them in a 7-Bit address line, which
-is connected to every perceptron in the particular layer. The data line stay a 4-Bit and the load
-line a 1-Bit connection and are simply y-splitted in the resolver.
+\end{figure}
+\pagebreak
+\subsection{Layer Level}
+Jede Schicht des Hardwaremodells besteht aus einem "Layer Resolver", der sich um die
+Signal-verteilung an jedes einzelne Perzeptron kümmert. Dies hat den Vorteil, dass die 
+Datenleitungen insgesamt reduziert werden.
 % Layer Level Hardware Model Diagram
 \begin{figure}[htbp]
     \begin{center}
@@ -336,25 +380,421 @@ line a 1-Bit connection and are simply y-splitted in the resolver.
             \draw[->](layerResolver.east) ++(0,0.4) -- ++(3,0) node[midway,sloped,yshift=0.25cm]{address};
             \draw[->](layerResolver.east) ++(0,0) -- ++(3,0) node[midway,sloped,yshift=0.25cm]{data};
             \draw[->](layerResolver.east) ++(0,-0.4) -- ++(3,0) node[midway,sloped,yshift=0.25cm]{load};
-
+            \draw[->](perceptron1.east) ++(0,0.4) -- ([yshift=0.4cm]perceptron2.west);
+            \draw[->](perceptron1.east) -- (perceptron2.west);
+            \draw[->](perceptron1.east) ++(0,-0.4) -- ([yshift=-0.4cm]perceptron2.west);
+            \draw[->](perceptron2.east) ++(0,0.4) -- ([yshift=0.4cm]perceptron3.west);
+            \draw[->](perceptron2.east) -- (perceptron3.west);
+            \draw[->](perceptron2.east) ++(0,-0.4) -- ([yshift=-0.4cm]perceptron3.west);
         \end{tikzpicture}
         \caption{Layer Level Hardware Model}
         \label{fig:layerHardwareModel}
     \end{center}
 \end{figure}
 \FloatBarrier
+In abbildung \ref{fig:layerHardwareModel} ist einer der 16 Layer grafisch dargestellt.
+Zu sehen ist, dass die Leitungen: "address", "data" und "load" jedes Perceptron miteinander
+verbindet und somit eine vollständige Adressierung und Datenbeaufschlagung garantiert wird.
+\pagebreak
+\section{Modul-Implementierung}
+Im folgenden wird die Implemetierung der einzelnen Module basierend auf der 
+Hardware-übersicht beschrieben.
+\subsection{Top Level Resolver}
+Der "Top Level Resolver" realisiert eine Aufteilung und Skalierung der Signale von dem 
+Eingang des Systems zu den Modulen "Storage" und "Layer Resolver". Konkret bedeutet
+das, dass wenn über die Signalleitung "mode" eine logische '1' anliegt die einzelnen 
+schichten und somit die Perzeptronen adressiet werden. Liegt jedoch eine logische '0'
+an dem Eingang des "Top Level Resolver" an, so wird der Speicher, welcher die späteren
+Funktions-Werte des Systems enthält, adressiert.
+\begin{figure}[htb!]
+    \begin{center}
+      \includegraphics[width=13.25cm]{ModuleDescription/top_level_resolver.png}
+    \end{center}
+    \caption{Modulbeschreibung "Top Level Resolver"} \label{fig:top_level_resolver}
+  \end{figure}
+\FloatBarrier
+In Abbildung \ref{fig:top_level_resolver} ist die Modulbeschreibung dargestellt.
+Daraus ist ersichtlich, dass die Datenleitung, welche an die einzelnen "Layer Resolver"-Module
+geleitet wird in eine 4Bit-Datenleitung gekürzt wird. Des weiteren wird die Adressleitung
+für das "Storage"-Modul in eine 10Bit-Datenleitung gekürzt. Daraus ergibt sich die Möglichkeit
+1280 verschiedene 4Bit-Datenregister für die Perzeptron-Schichten und 1024 verschiedene
+16Bit-Register für die Funktionseingabe in der erstem Perceptron-Schicht zu realisieren.
+\begin{figure}[htbp]
+\begin{lstlisting}[style=VHDL,numbers=left,stepnumber=1,basicstyle=\footnotesize]
+behaviour : process (reset, mode, address_in, data_in, load_in) is
+  begin
+    if reset = '1' then
+      ----------------------------------------------
+      -- Reset all Outputs and internal Variables --
+      ----------------------------------------------
+      address_out_layer   <= (others => '0');
+      data_out_layer      <= (others => '0');
+      load_out_layer      <= '0';
+      address_out_storage <= (others => '0');
+      data_out_storage    <= (others => '0');
+      load_out_storage    <= '0';
+    elsif reset = '0' then
+      ------------------
+      -- Layer Branch --
+      ------------------
+      if mode = '0' then
+        address_out_layer <= address_in;
+        data_out_layer    <= data_in(3 downto 0); -- least significant bits
+        load_out_layer    <= load_in;
+        ---------------------------
+        -- All others to default --
+        ---------------------------
+        address_out_storage <= (others => '0');
+        data_out_storage    <= (others => '0');
+        load_out_storage    <= '0';
+        --------------------
+        -- Storage Branch --
+        --------------------
+      elsif mode = '1' then
+        address_out_storage <= address_in(9 downto 0); -- least significant bits
+        data_out_storage    <= data_in;
+        load_out_storage    <= load_in;
+        ---------------------------
+        -- All others to default --
+        ---------------------------
+        address_out_layer <= (others => '0');
+        data_out_layer    <= (others => '0');
+        load_out_layer    <= '0';
+      end if;
+    end if;
+  end process;
+\end{lstlisting}
+\caption{Programmcode zu "Top Level Resolver"} \label{code:top_level_resolver}
+\end{figure}
+\FloatBarrier
+In dem Programmcode aus \ref{code:top_level_resolver} ist ersichtlich, dass es sich lediglich
+um rein kombinatorische Logik handelt, welche keinen externen Takt benötigt. Es handelt 
+sich bei dem gezeigten Code lediglich um den "Process", die "Entity" und "Architecture"
+wurden im Folgenden näher erleutert.
+\pagebreak
+\subsection{Storage}
+Das Modul "Storage" ist für die Speicherung der Eingangs-Funktionswerte zuständig, um das 
+Modell des Multilayer-Perzeptrons mit Daten zu versorgen und optimierungen auf bestimmte 
+Funktionen vor zu nehmen.
+\begin{figure}[htb!]
+    \begin{center}
+      \includegraphics[width=13.25cm]{ModuleDescription/storage.png}
+    \end{center}
+    \caption{Modulbeschreibung "Layer Resolver"} \label{fig:storage}
+  \end{figure}
+\FloatBarrier
+\pagebreak
+In der Modulbeschreibung aus Abbildung \ref{fig:storage} ist ersichtlich, dass der 
+Speicher eine Adressweite von 10Bit besitzt und 16Bit Werte speichern kann. Des weiteren 
+wird aus dem Code in Abbildung ersichtlich, dass bei anlegen eines Taktsignals  "clk" 
+die gespeicherten Werte iterativ am Ausgang "layer\_output" ausgegeben werden. Der 
+"layer\_output" stellt  die Verbindung zwischen dem Speichermodul und der ersten 
+Perzeptron-Schicht dar.
+\begin{figure}[htbp]
+\begin{lstlisting}[style=VHDL,numbers=left,stepnumber=1,basicstyle=\footnotesize]
+    behaviour : process (load_in_storage, clk, reset)
+    variable count : integer range 0 to 1023;
+  begin
+    --------------------
+    -- reset handling --
+    --------------------
+    if (reset = '1') then
+      -- Reset the 16Bit values of the whole 10Bit long array.
+      for i in 0 to 1023 loop
+        stored_value(i) <= (others => '0');
+        count := 0;
+      end loop;
+    end if;
+    --------------------
+    -- input handling --
+    --------------------
+    if (rising_edge(load_in_storage)) then
+      -- If the load is triggered, safe the value at the address.
+      stored_value(to_integer(unsigned(address_in_storage))) <= data_in_storage;
+    end if;
+    ---------------------
+    -- output handling --
+    ---------------------
+    if (rising_edge(clk)) then
+      layer_output <= stored_value(count);
+      count := count + 1;
+      if (count = 1023) then
+        count := 0;
+      end if;
+    end if;
+  end process;
+\end{lstlisting}
+\caption{Programmcode zu "Storage"} \label{code:storage}
+\end{figure}
+\pagebreak
+\subsection{Layer Resolver}
+Der "Layer Resolver" übernimmt die Rolle des Bindegliedes zwischen dem "Top Level Resolver"
+und den einzelnen Schichten mit Perzeptronen.
+\begin{figure}[htb!]
+    \begin{center}
+      \includegraphics[width=13.25cm]{ModuleDescription/layer_resolver.png}
+    \end{center}
+    \caption{Modulbeschreibung "Layer Resolver"} \label{fig:layer_resolver}
+  \end{figure}
+\FloatBarrier
+In der Modulbeschreibung aus Abbildung \ref{fig:layer_resolver} ist ersichtlich, dass der 
+"Layer Resolver" bei seiner Instanziierung einen Parameter übergeben bekommt, welcher angibt 
+in welcher Schicht sich der "Layer Resolver" befindet. Dies ist nötig, um die Adressen richtig 
+an die Perzeptrone in jeder einzelnen Schicht weiter zu leiten. Die 10Bit Eingangs-Adresse 
+wird durch den "Layer Resover" in eine 6Bit Ausgangs-Adresse gewandelt.
+\begin{figure}[htbp]
+\begin{lstlisting}[style=VHDL,numbers=left,stepnumber=1,basicstyle=\footnotesize]
+behaviour : process (address_in, reset, load_in, data_in) is
+variable perceptron_address : integer range 0 to 15;
+  begin
+    if reset = '1' then
+      address_out <= (others => '0');
+      data_out    <= (others => '0');
+      load_out    <= '0';
+    else
+      --------------------------
+      -- detect valid address --
+      --------------------------
+      if (load_in = '1') then
+        -- address = xxxx xxxx xxx 
+        -- (layer, perceptron in layer, value)
+        if (shift_right((unsigned(address_in) and "11110000000"), 7) = layer_count) then
+          ------------------------------
+          -- forward address and data --
+          ------------------------------
+          address_out <= address_in(6 downto 0);
+          data_out    <= data_in;
+          load_out    <= load_in;
+        else
+          -----------------------------------
+          -- reset address and data output --
+          -----------------------------------
+          address_out <= (others => '0');
+          data_out    <= (others => '0');
+          load_out    <= '0';
+        end if;
+      end if;
+    end if;
+  end process;
+\end{lstlisting}
+\caption{Programmcode zu "Layer Resolver"} \label{code:layer_resolver}
+\end{figure}
+\FloatBarrier
+Es handelt sich weider um einen rein kombinatorischen Prozess ohne Taktabhandlung.
+\subsection{Perzeptron}
+Das Perzeptron selbst besteht aus einer binären Eingabesteuerung anstelle von 
+Gleitkommaberechnungen. Das bedeutet, dass die Verbindung von einem Perzeptron-Ausgang zu 
+einem anderen Perzeptron-Eingang nur aktiv oder nicht aktiv sein kann.
+Darüber hinaus ist der zweite Parameter innerhalb des Perzeptrons die Aktivierungsfunktion, die
+welche im Grunde die Summation über die "high"-Eingangs-signale darstellt.
+Wenn die Summe größer ist als ein gegebener Wert wird der Ausgang des Perzeptrons auf 
+"high" gesetzt. In dem Programmcode aus Abbildung \ref{code:perceptron} ist ersichtlich, 
+dass die Adressierung des 16Bit-Vektors für die Gewichtung der Eingänge (aktiv oder nicht 
+aktiv) auf insgesamt vier 4Bit-Vektoren aufgeteilt wird, welche von dem Perzeptron 
+schließlich zu einem 16Bit-Vektor zusammengefasst werden. Die Adresierung des 
+"activation\_value", welcher eine Aussage darüber trifft, ab wie vielen logischen "high"-
+Werten der Ausgang eine "1" annimt wird auf die selbe Weise adressiert. Über die 
+"data"-Verbindung wird schließlich den adressierten Speichern ein Wert zugewiesen.
+Zusammenfasend ist zu sagen, das die letzten 3-Bit in der Adresse immer die Adressierung 
+der spezifischen Aktivierungsfunktionen darstellt.
+\begin{figure}[htb!]
+    \begin{center}
+      \includegraphics[width=13.25cm]{ModuleDescription/perceptron.png}
+    \end{center}
+    \caption{Modulbeschreibung "Perzeptron"} \label{fig:perceptron}
+  \end{figure}
+\FloatBarrier
+\begin{figure}[htbp]
+\begin{lstlisting}[style=VHDL,numbers=left,stepnumber=1,style=myCustomMatlabStyle,basicstyle=\footnotesize]
+behaviour : process (load, reset, dentrid_port, address, data) is
+    variable count     : unsigned(3 downto 0)           := (others => '0');
+    variable old_value : std_logic_vector (15 downto 0) := (others => '0');
+  begin
+    --------------------
+    -- reset handling --
+    --------------------
+    if (reset = '1') then
+      axon_port         <= '0';
+      activation_value  <= (others => '1');
+      sensitivity_value <= (others => '0');
+      sens_1            <= (others => '0');
+      sens_2            <= (others => '0');
+      sens_3            <= (others => '0');
+      sens_4            <= (others => '0');
+      count     := (others         => '0');
+      old_value := (others         => '0');
+    else
+      ----------------------------
+      -- value storage handling --
+      ----------------------------
+      if load = '1' then
+        -- check if the current perceptron is meant (first 4 Bit)
+        if (shift_right((unsigned(address) and "1111000"), 3) = perceptron_id) then
+          -- check the parameters (last 3 Bit)
+          if ((unsigned(address) and "0000111") = 0) then
+            activation_value <= unsigned(data);
+          end if;
+          if ((unsigned(address) and "0000111") = 1) then
+            sens_1 <= unsigned(data);
+          end if;
+          if ((unsigned(address) and "0000111") = 2) then
+            sens_2 <= unsigned(data);
+          end if;
+          if ((unsigned(address) and "0000111") = 3) then
+            sens_3 <= unsigned(data);
+          end if;
+          if ((unsigned(address) and "0000111") = 4) then
+            sens_4 <= unsigned(data);
+          end if;
+        end if;
+        sensitivity_value <= sens_4 & sens_3 & sens_2 & sens_1;
+      end if;
+      ---------------------
+      -- output handling --
+      ---------------------
+      if dentrid_port /= old_value then
+        -- count over all Bits and proceed sensitivity and and output activation
+        count := "0000";
+        for i in 0 to 15 loop
+          if ((dentrid_port(i) = '1') and (sensitivity_value(i) = '1')) then
+            count := count + 1;
+          end if;
+        end loop; -- counter
+        old_value := dentrid_port;
+        -- update axon
+        if (count = activation_value) then
+          axon_port <= '1';
+        else
+          axon_port <= '0';
+        end if;
+      end if;
+    end if;
+  end process;
+\end{lstlisting}
+\caption{Programmcode zum "Perzeptron"} \label{code:perceptron}
+\end{figure}
+\section{Gesamt-Implementierung}\label{sec:implementation}
+Im folgenden wird die Gesamtimplementierung basierend auf der Hardwareübersicht erläutert
+dabei wird lediglich auf die Instanziierung der Module eingegangen.
+\begin{figure}[htb!]
+    \begin{center}
+      \includegraphics[width=13.25cm]{ModuleDescription/top_level_entity.png}
+    \end{center}
+    \caption{Modulbeschreibung "Top Level Entity"} \label{fig:top_level_entity}
+  \end{figure}
+\FloatBarrier
+In der Abbildung \ref{fig:top_level_entity} ist die Beschreibung der oberen Instanz
+des Systems beschrieben. Diese generiert alle weiteren Module und stellt deren Verbindung 
+untereinander dar. Wie diese Verbindung realisiert ist wird im folgenden erläutert.
+\pagebreak
+\begin{figure}[htbp]
+\begin{lstlisting}[style=VHDL,numbers=left,stepnumber=1,style=myCustomMatlabStyle,basicstyle=\footnotesize]
+----------------------
+-- Internal Signals --
+----------------------
+-- connection top level resolver to layer
+signal address_int_layer : std_logic_vector(10 downto 0) := (others => '0'); 
+signal data_int_layer    : std_logic_vector(3 downto 0)  := (others => '0');
+signal load_int_layer    : std_logic                     := '0';
+-- connection top level resolver to storage
+signal address_int_storage : std_logic_vector(9 downto 0)  := (others => '0');
+signal data_int_storage    : std_logic_vector(15 downto 0) := (others => '0');
+signal load_int_storage    : std_logic                     := '0';
+-- connect storage to first layer
+signal storage_to_first_layer : std_logic_vector(15 downto 0) := (others => '0');
+-- layer connection arrays
+-- axon ports to next layer
+type arr_16_times_16 is array (0 to 14) of std_logic_vector(15 downto 0);
+signal layer_axon_arr : arr_16_times_16;
+-- address from layer resolver to layer
+type arr_16_times_7 is array (0 to 15) of std_logic_vector(6 downto 0);
+signal address_layer_arr : arr_16_times_7;
+-- data from layer resolver to layer
+type arr_16_times_4 is array (0 to 15) of std_logic_vector(3 downto 0);
+signal data_layer_arr : arr_16_times_4;
+-- load from layer resolver to layer
+signal load_layer : std_logic_vector (15 downto 0);
+\end{lstlisting}
+\caption{Programmcode der internen Signale} \label{code:internal_signals}
+\end{figure}
+\begin{figure}[htb!]
+    \begin{center}
+      \includegraphics[width=13.25cm]{ModuleDescription/internal_signals1.png}
+    \end{center}
+    \caption{Beschreibung der internen Signale der "Top Level Entity"} \label{fig:internal_signals1}
+  \end{figure}
+\FloatBarrier
+\begin{figure}[htb!]
+    \begin{center}
+      \includegraphics[width=13.25cm]{ModuleDescription/internal_signals2.png}
+    \end{center}
+    \caption{Fortführung der Beschreibung der internen Signale der "Top Level Entity"} \label{fig:internal_signals2}
+  \end{figure}
+\FloatBarrier
+In Abbildung \ref{fig:internal_signals1} und \ref{fig:internal_signals2} sind die
+internen Signale, welche zur Verbindung der Module nötig sind beschrieben.
+Alle internen Signale wurden kompatibel zu den Schnittstellen angelegt.
+Die jeweilige Verbindung einer Perzeptron-Schicht mit der nächsten im Bezug auf 
+die Daten- und Adressleitung wird jeweils durch ein 2-dimensionales "Array" aus 
+16Bit Vektoren realisiert.
+\pagebreak
+\subsection{Instanziierung Der layer}
+Im folgenden wird lediglich auf die Instanziierung der Layer eingegeangen. 
+Die Instanziierung der restlichen Module funktioniert ähnlich dem der einzelnen Layer.
+\begin{figure}[htbp]
+\begin{lstlisting}[style=VHDL,numbers=left,stepnumber=1,style=myCustomMatlabStyle,basicstyle=\footnotesize]
+-- instances of layer resolver
+layer_resolvers : for i in 0 to 15 generate -- generate 16 layer resolvers
+  layer_resolver_inst : layer_resolver
+  generic map(
+    layer_count => i
+  )
+  port map(
+    reset       => reset,
+    address_in  => address_int_layer, -- tlr to resolvers
+    data_in     => data_int_layer, -- ""
+    load_in     => load_int_layer, -- ""
+    address_out => address_layer_arr(i), -- layer resolver to perceptron array
+    data_out    => data_layer_arr(i), -- ""
+    load_out    => load_layer(i)
+  );
+end generate;
+-- two dimensional layer array of perceptrons 14 x 16 (layer x perceptron)
+layer_arr_2D : for i in 1 to 14 generate -- layer
+  layer_arr_1D : for j in 0 to 15 generate -- perceptron in layer
+    perceptron_arr_inst : perceptron
+    generic map(
+      perceptron_id => j
+    )
+    port map(
+      reset        => reset,
+      dentrid_port => layer_axon_arr(i - 1), -- prev layer to current layer
+      axon_port    => layer_axon_arr(i)(j), -- current to next layer
+      address      => address_layer_arr(i), -- layer resolver to perceptron array
+      data         => data_layer_arr(i), -- ""
+      load         => load_layer(i) -- ""
+    );
+  end generate;
+end generate;
+\end{lstlisting}
+\caption{Programmcode der internen Signale} \label{code:generate_layers}
+\end{figure}
+In der Abbildung \ref{code:generate_layers} ist zu sehen, dass insgesamt 16 
+"layer\_resolver" und 13 Schichten mit Perzeptronen instanziiert werden. In jeder 
+Perzeptron-Schicht befinden sich wiederum jeweils 16 Perzeptronen. Wie bereits in 
+Abschnitt \ref{sec:implementation} erwähnt, werden die erzeugten Pereptronen
+bei der Instanziierung mit den internen Signalen verbunden.
+\pagebreak
+\section{Validierung}
+Die Validierung der einzelnen Module, der Integration verschiedener Module und der
+des gesamten Systems wird mit Hilfe der Simulation auf Regeister-Transfer-Ebene 
+in "Modelsim" realisiert.
+\subsection{Modultest}
 
-The perceptron itselfe consist of a two state input control instead of float point calculations. That
-means, that the connection from one perceptron output to an other perceptron input can only be active
-or non active. Furthermore, the second parameter inside the perceptron is the activation function, which
-is basically the summation over a count of input "high" signals. If the summation is greater than a given
-value, the output of the perceptron is pulled "high".
+\subsection{Integrationstest}
 
-\section{Implementation}
-The implemetation of the whole system is based on the hardware overview and splitted in different modules
-which finally get connected with each other.
+\subsection{Systemtest}
 
-\section{Validation}
-
+\subsection{Timing-Analyse}
 
 \end{document}

@@ -1,7 +1,19 @@
 \babel@toc {english}{}
-\contentsline {section}{\numberline {1}Introduction}{3}{section.1}%
+\contentsline {section}{\numberline {1}Einführung}{3}{section.1}%
 \contentsline {subsection}{\numberline {1.1}Perceptron}{3}{subsection.1.1}%
-\contentsline {subsection}{\numberline {1.2}Activation function}{3}{subsection.1.2}%
-\contentsline {section}{\numberline {2}Design Overview}{4}{section.2}%
-\contentsline {section}{\numberline {3}Implementation}{5}{section.3}%
-\contentsline {section}{\numberline {4}Validation}{5}{section.4}%
+\contentsline {subsection}{\numberline {1.2}Aktivierungsfunktion}{3}{subsection.1.2}%
+\contentsline {section}{\numberline {2}Design Übersicht}{4}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Top Level}{4}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Layer Level}{5}{subsection.2.2}%
+\contentsline {section}{\numberline {3}Modul-Implementierung}{6}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Top Level Resolver}{6}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Storage}{8}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Layer Resolver}{10}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Perzeptron}{11}{subsection.3.4}%
+\contentsline {section}{\numberline {4}Gesamt-Implementierung}{14}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Instanziierung Der layer}{16}{subsection.4.1}%
+\contentsline {section}{\numberline {5}Validierung}{17}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Modultest}{17}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Integrationstest}{17}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Systemtest}{17}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}Timing-Analyse}{17}{subsection.5.4}%
