@@ -405,3 +405,217 @@ run -all
 # ** Note: Simulation Stop
 #    Time: 65 ns  Iteration: 0  Instance: /storage_tb
 # Break in Process check_beh at /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/storage_tb.vhdl line 107
+# Compile of top_level_resolver.vhdl was successful.
+# Compile of layer_resolver.vhdl was successful.
+# Compile of layer_resolver_tb.vhdl was successful with warnings.
+# Compile of top_level_resolver_tb.vhdl was successful with warnings.
+# Compile of perceptron.vhdl was successful.
+# Compile of perceptron_tb.vhdl was successful with warnings.
+# Compile of storage.vhdl was successful.
+# Compile of storage_tb.vhdl was successful with warnings.
+# Compile of top_level_entity.vhdl was successful.
+# Compile of top_level_entity_tb.vhdl was successful with warnings.
+# Compile of tlr_storage.vhdl was successful with warnings.
+# Compile of tlr_storage_tb.vhdl was successful with warnings.
+# 12 compiles, 0 failed with no errors.
+# End time: 22:27:58 on Jul 13,2021, Elapsed time: 1:02:31
+# Errors: 0, Warnings: 2
+# vsim work.perceptron_tb(bench) 
+# Start time: 22:27:58 on Jul 13,2021
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading std.env(body)
+# Loading work.perceptron_tb(bench)
+# Loading ieee.std_logic_arith(body)
+# Loading ieee.std_logic_unsigned(body)
+# Loading ieee.math_real(body)
+# Loading work.perceptron(rtl)
+# .main_pane.wave.interior.cs.body.pw.wf
+# 0 ps
+# 194250 ps
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 0 ps  Iteration: 0  Instance: /perceptron_tb/perceptron_inst
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 0 ps  Iteration: 1  Instance: /perceptron_tb/perceptron_inst
+# ** Note: Simulation Stop
+#    Time: 185 ns  Iteration: 0  Instance: /perceptron_tb
+# Break in Process check_beh at /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/perceptron_tb.vhdl line 149
+add wave -position insertpoint  \
+sim:/perceptron_tb/perceptron_inst/activation_value \
+sim:/perceptron_tb/perceptron_inst/sensitivity_value \
+sim:/perceptron_tb/perceptron_inst/sens_1 \
+sim:/perceptron_tb/perceptron_inst/sens_2 \
+sim:/perceptron_tb/perceptron_inst/sens_3 \
+sim:/perceptron_tb/perceptron_inst/sens_4
+restart
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+run -all
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 0 ps  Iteration: 0  Instance: /perceptron_tb/perceptron_inst
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 0 ps  Iteration: 1  Instance: /perceptron_tb/perceptron_inst
+# ** Note: Simulation Stop
+#    Time: 185 ns  Iteration: 0  Instance: /perceptron_tb
+# Break in Process check_beh at /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/perceptron_tb.vhdl line 149
+# Compile of top_level_resolver.vhdl was successful.
+# Compile of layer_resolver.vhdl was successful.
+# Compile of layer_resolver_tb.vhdl was successful with warnings.
+# Compile of top_level_resolver_tb.vhdl was successful with warnings.
+# Compile of perceptron.vhdl was successful.
+# Compile of perceptron_tb.vhdl was successful with warnings.
+# Compile of storage.vhdl was successful.
+# Compile of storage_tb.vhdl was successful with warnings.
+# Compile of top_level_entity.vhdl was successful.
+# Compile of top_level_entity_tb.vhdl was successful with warnings.
+# Compile of tlr_storage.vhdl was successful with warnings.
+# Compile of tlr_storage_tb.vhdl was successful with warnings.
+# 12 compiles, 0 failed with no errors.
+restart
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# Loading work.perceptron_tb(bench)
+# Loading work.perceptron(rtl)
+run -all
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 0 ps  Iteration: 0  Instance: /perceptron_tb/perceptron_inst
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 0 ps  Iteration: 1  Instance: /perceptron_tb/perceptron_inst
+# ** Note: Simulation Stop
+#    Time: 185 ns  Iteration: 0  Instance: /perceptron_tb
+# Break in Process check_beh at /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/perceptron_tb.vhdl line 149
+restart
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+run -all
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 0 ps  Iteration: 0  Instance: /perceptron_tb/perceptron_inst
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 0 ps  Iteration: 1  Instance: /perceptron_tb/perceptron_inst
+# ** Note: Simulation Stop
+#    Time: 185 ns  Iteration: 0  Instance: /perceptron_tb
+# Break in Process check_beh at /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/perceptron_tb.vhdl line 149
+# Compile of top_level_resolver.vhdl was successful.
+# Compile of layer_resolver.vhdl was successful.
+# Compile of layer_resolver_tb.vhdl was successful with warnings.
+# Compile of top_level_resolver_tb.vhdl was successful with warnings.
+# Compile of perceptron.vhdl was successful.
+# Compile of perceptron_tb.vhdl was successful with warnings.
+# Compile of storage.vhdl was successful.
+# Compile of storage_tb.vhdl was successful with warnings.
+# Compile of top_level_entity.vhdl was successful.
+# Compile of top_level_entity_tb.vhdl was successful with warnings.
+# Compile of tlr_storage.vhdl was successful with warnings.
+# Compile of tlr_storage_tb.vhdl was successful with warnings.
+# 12 compiles, 0 failed with no errors.
+restart
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# Loading work.perceptron_tb(bench)
+# Loading work.perceptron(rtl)
+run -all
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 0 ps  Iteration: 0  Instance: /perceptron_tb/perceptron_inst
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 0 ps  Iteration: 1  Instance: /perceptron_tb/perceptron_inst
+# ** Note: Simulation Stop
+#    Time: 155 ns  Iteration: 0  Instance: /perceptron_tb
+# Break in Process check_beh at /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/perceptron_tb.vhdl line 137
+# Compile of top_level_resolver.vhdl was successful.
+# Compile of layer_resolver.vhdl was successful.
+# Compile of layer_resolver_tb.vhdl was successful with warnings.
+# Compile of top_level_resolver_tb.vhdl was successful with warnings.
+# Compile of perceptron.vhdl was successful.
+# Compile of perceptron_tb.vhdl was successful with warnings.
+# Compile of storage.vhdl was successful.
+# Compile of storage_tb.vhdl was successful with warnings.
+# Compile of top_level_entity.vhdl was successful.
+# Compile of top_level_entity_tb.vhdl was successful with warnings.
+# Compile of tlr_storage.vhdl was successful with warnings.
+# Compile of tlr_storage_tb.vhdl was successful with warnings.
+# 12 compiles, 0 failed with no errors.
+restart
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# Loading work.perceptron_tb(bench)
+# Loading work.perceptron(rtl)
+run -all
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 0 ps  Iteration: 0  Instance: /perceptron_tb/perceptron_inst
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 0 ps  Iteration: 1  Instance: /perceptron_tb/perceptron_inst
+# ** Note: Simulation Stop
+#    Time: 145 ns  Iteration: 0  Instance: /perceptron_tb
+# Break in Process check_beh at /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/perceptron_tb.vhdl line 132
+# Compile of top_level_resolver.vhdl was successful.
+# Compile of layer_resolver.vhdl was successful.
+# Compile of layer_resolver_tb.vhdl was successful with warnings.
+# Compile of top_level_resolver_tb.vhdl was successful with warnings.
+# Compile of perceptron.vhdl was successful.
+# Compile of perceptron_tb.vhdl was successful with warnings.
+# Compile of storage.vhdl was successful.
+# Compile of storage_tb.vhdl was successful with warnings.
+# Compile of top_level_entity.vhdl was successful.
+# Compile of top_level_entity_tb.vhdl was successful with warnings.
+# Compile of tlr_storage.vhdl was successful with warnings.
+# Compile of tlr_storage_tb.vhdl was successful with warnings.
+# 12 compiles, 0 failed with no errors.
+restart
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# Loading work.perceptron_tb(bench)
+# Loading work.perceptron(rtl)
+run -all
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 0 ps  Iteration: 0  Instance: /perceptron_tb/perceptron_inst
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 0 ps  Iteration: 1  Instance: /perceptron_tb/perceptron_inst
+# ** Note: Simulation Stop
+#    Time: 145 ns  Iteration: 0  Instance: /perceptron_tb
+# Break in Process check_beh at /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/perceptron_tb.vhdl line 132
+# Compile of top_level_resolver.vhdl was successful.
+# Compile of layer_resolver.vhdl was successful.
+# Compile of layer_resolver_tb.vhdl was successful with warnings.
+# Compile of top_level_resolver_tb.vhdl was successful with warnings.
+# Compile of perceptron.vhdl was successful.
+# Compile of perceptron_tb.vhdl was successful with warnings.
+# Compile of storage.vhdl was successful.
+# Compile of storage_tb.vhdl was successful with warnings.
+# Compile of top_level_entity.vhdl was successful.
+# Compile of top_level_entity_tb.vhdl was successful with warnings.
+# Compile of tlr_storage.vhdl was successful with warnings.
+# Compile of tlr_storage_tb.vhdl was successful with warnings.
+# 12 compiles, 0 failed with no errors.
+restart
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# Loading work.perceptron_tb(bench)
+# Loading work.perceptron(rtl)
+run -all
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 0 ps  Iteration: 0  Instance: /perceptron_tb/perceptron_inst
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 0 ps  Iteration: 1  Instance: /perceptron_tb/perceptron_inst
+# ** Note: Simulation Stop
+#    Time: 145 ns  Iteration: 0  Instance: /perceptron_tb
+# Break in Process check_beh at /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/perceptron_tb.vhdl line 132
+# Compile of top_level_resolver.vhdl was successful.
+# Compile of layer_resolver.vhdl was successful.
+# Compile of layer_resolver_tb.vhdl was successful with warnings.
+# Compile of top_level_resolver_tb.vhdl was successful with warnings.
+# Compile of perceptron.vhdl was successful.
+# Compile of perceptron_tb.vhdl was successful with warnings.
+# Compile of storage.vhdl was successful.
+# Compile of storage_tb.vhdl was successful with warnings.
+# Compile of top_level_entity.vhdl was successful.
+# Compile of top_level_entity_tb.vhdl was successful with warnings.
+# Compile of tlr_storage.vhdl was successful with warnings.
+# Compile of tlr_storage_tb.vhdl was successful with warnings.
+# 12 compiles, 0 failed with no errors.
+restart
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# Loading work.perceptron_tb(bench)
+# Loading work.perceptron(rtl)
+run -all
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 0 ps  Iteration: 0  Instance: /perceptron_tb/perceptron_inst
+# ** Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+#    Time: 0 ps  Iteration: 1  Instance: /perceptron_tb/perceptron_inst
+# ** Note: Simulation Stop
+#    Time: 155 ns  Iteration: 0  Instance: /perceptron_tb
+# Break in Process check_beh at /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/perceptron_tb.vhdl line 137
