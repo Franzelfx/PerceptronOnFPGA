@@ -10,12 +10,12 @@ z2
 cModel Technology
 d/home/fabian/intelFPGA
 Elayer_resolver
-Z0 w1626090727
+Z0 w1626100152
 Z1 DPx4 ieee 9 math_real 0 22 gNk<PdFJ<XNPcfef`f?Z81
 Z2 DPx4 ieee 11 numeric_std 0 22 aU^R8eGcicLcUFIaBQSL>3
 Z3 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
 Z4 DPx4 ieee 14 std_logic_1164 0 22 cVAk:aDinOX8^VGI1ekP<3
-!i122 1789
+!i122 1969
 Z5 d/home/fabian/git/PerceptronOnFPGA
 Z6 8/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Modules/layer_resolver.vhdl
 Z7 F/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Modules/layer_resolver.vhdl
@@ -25,9 +25,9 @@ V6biMTf9?ZY^FC2JCP`cYO3
 !s100 E9:RiO7a<2P3XHDC9RYXS1
 Z8 OV;C;2020.1;71
 32
-Z9 !s110 1626095166
+Z9 !s110 1626185041
 !i10b 1
-Z10 !s108 1626095166.000000
+Z10 !s108 1626185041.000000
 Z11 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Modules/layer_resolver.vhdl|
 Z12 !s107 /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Modules/layer_resolver.vhdl|
 !i113 1
@@ -39,11 +39,11 @@ R2
 R3
 R4
 DEx4 work 14 layer_resolver 0 22 6biMTf9?ZY^FC2JCP`cYO3
-!i122 1789
+!i122 1969
 l35
 L34 34
-V_:?liRD;eP5EgB1?KC4=G1
-!s100 mbIRhRIDkQ69@>70hHVGa1
+VkScb]bPYMIkX?J8XmJNNI1
+!s100 e=dWgl]9eiO@Yb1X?RbY_3
 R8
 32
 R9
@@ -55,12 +55,12 @@ R12
 R13
 R14
 Elayer_resolver_tb
-Z15 w1626088040
+Z15 w1626184157
 Z16 DPx3 std 3 env 0 22 d?`1ck@NdeD@H3RZG7FgZ2
 R2
 R3
 R4
-!i122 1790
+!i122 1970
 R5
 Z17 8/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/layer_resolver_tb.vhdl
 Z18 F/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/layer_resolver_tb.vhdl
@@ -84,11 +84,11 @@ R2
 R3
 R4
 DEx4 work 17 layer_resolver_tb 0 22 adZi5P0@RB^6?MER4nZUI1
-!i122 1790
+!i122 1970
 l44
-L15 85
-VXlA1=5]6ocFMG8`Hic1d]0
-!s100 eA5QDLdM6A4QKbSWI5IB@1
+L15 86
+VYYV@Jjl2`MVRGPUCh^T272
+!s100 EIXZ5_G`a6<?`FPC_0iTA2
 R8
 32
 R9
@@ -112,7 +112,7 @@ R2
 R3
 R4
 Z25 DEx4 work 10 storage_tb 0 22 LM2g2V=FP?8?MW`XFn8lA2
-!i122 1795
+!i122 1975
 Z26 w1623683023
 R5
 Z27 8/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/storage_tb.vhdl
@@ -132,14 +132,14 @@ Z31 !s107 /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/storage_tb.vhdl|
 R13
 R14
 Eperceptron
-Z32 w1626095125
+Z32 w1626100312
 R1
 R2
 R22
 R23
 R3
 R4
-!i122 1792
+!i122 1972
 R5
 Z33 8/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Modules/perceptron.vhdl
 Z34 F/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Modules/perceptron.vhdl
@@ -165,11 +165,11 @@ R23
 R3
 R4
 DEx4 work 10 perceptron 0 22 5zoX15X`RjfkRZUYZ8m8l1
-!i122 1792
+!i122 1972
 l43
 L31 79
-V^5eZZO:O_LgWm09OVof0I0
-!s100 `X]eDNZmY3h:gV2d<mn052
+VLX1i71BaIkhF3Ec>eIOz<3
+!s100 NOH8iKLi<CEj643c5Wai40
 R8
 32
 R9
@@ -186,7 +186,7 @@ R16
 R2
 R3
 R4
-!i122 1793
+!i122 1973
 R5
 Z39 8/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/perceptron_tb.vhdl
 Z40 F/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/perceptron_tb.vhdl
@@ -210,7 +210,7 @@ R2
 R3
 R4
 DEx4 work 13 perceptron_tb 0 22 z6^lfI=aOMU608g29O_K^0
-!i122 1793
+!i122 1973
 l42
 L15 137
 VhU<fnRm=FXcN[3KSE>`VX3
@@ -226,14 +226,14 @@ R42
 R13
 R14
 Estorage
-Z43 w1625496034
+Z43 w1626100548
 R1
 R2
 R22
 R23
 R3
 R4
-!i122 1794
+!i122 1974
 R5
 Z44 8/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Modules/storage.vhdl
 Z45 F/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Modules/storage.vhdl
@@ -259,11 +259,11 @@ R23
 R3
 R4
 R24
-!i122 1794
+!i122 1974
 l30
 L26 38
-V?jQND`iZjI_9J^jIinG:?0
-!s100 n2]Wf>olC]RbYWl<7nbMU1
+VLzXZ0]ai6MebPD=ljCX[J3
+!s100 Faz>e:RK0BKf_6cb9ZE:K0
 R8
 32
 R9
@@ -288,7 +288,7 @@ R2
 R3
 R4
 Z51 DEx4 work 11 tlr_storage 0 22 ?^Na;JM_fXYTcLn7aR2GT3
-!i122 1798
+!i122 1978
 Z52 w1625682582
 R5
 Z53 8/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Modules/tlr_storage.vhdl
@@ -299,11 +299,11 @@ V8G20F`[VNQL`_Jjl<Lo;Q2
 !s100 eGNhNEmS<>7X_<aQWLA843
 R8
 32
-R9
+Z55 !s110 1626185042
 !i10b 1
-R10
-Z55 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Modules/tlr_storage.vhdl|
-Z56 !s107 /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Modules/tlr_storage.vhdl|
+Z56 !s108 1626185042.000000
+Z57 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Modules/tlr_storage.vhdl|
+Z58 !s107 /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Modules/tlr_storage.vhdl|
 !i113 1
 R13
 R14
@@ -313,7 +313,7 @@ R16
 R2
 R3
 R4
-!i122 1795
+!i122 1975
 R5
 R27
 R28
@@ -337,7 +337,7 @@ R2
 R3
 R4
 R25
-!i122 1795
+!i122 1975
 l40
 L15 95
 VP3UEeUa@S@^IHONB=C<Bf0
@@ -366,7 +366,7 @@ R2
 R3
 R4
 R51
-!i122 1798
+!i122 1978
 R52
 R5
 R53
@@ -377,11 +377,11 @@ VXGZn5A2W]ijAzo_9h<>jN2
 !s100 CB>6nhoo4<ia:Elf>S?4N0
 R8
 32
-R9
-!i10b 1
-R10
 R55
+!i10b 1
 R56
+R57
+R58
 !i113 1
 R13
 R14
@@ -391,7 +391,7 @@ R16
 R2
 R3
 R4
-!i122 1798
+!i122 1978
 R5
 R53
 R54
@@ -401,11 +401,11 @@ V?^Na;JM_fXYTcLn7aR2GT3
 !s100 7FFzjzUNMQ@h]CYa?UX>b1
 R8
 32
-R9
-!i10b 1
-R10
 R55
+!i10b 1
 R56
+R57
+R58
 !i113 1
 R13
 R14
@@ -415,43 +415,43 @@ R2
 R3
 R4
 R51
-!i122 1798
+!i122 1978
 l69
 L25 74
 VcV]XI8_K2DQTGzl>diF@C1
 !s100 ^<GO[_:kM`17;jU]G<J4o1
 R8
 32
-R9
-!i10b 1
-R10
 R55
+!i10b 1
 R56
+R57
+R58
 !i113 1
 R13
 R14
 Etlr_storage_tb
-Z57 w1625686368
+Z59 w1626185036
 R16
 R1
 R2
 R3
 R4
-!i122 1799
+!i122 1979
 R5
-Z58 8/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/tlr_storage_tb.vhdl
-Z59 F/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/tlr_storage_tb.vhdl
+Z60 8/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/tlr_storage_tb.vhdl
+Z61 F/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/tlr_storage_tb.vhdl
 l0
-Z60 L13 1
+Z62 L13 1
 V;<:L9Naoz;W;3P?z0@mGT3
 !s100 8JU0^:ZaDdZnaE_F1bAWD1
 R8
 32
-R9
+R55
 !i10b 1
-R10
-Z61 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/tlr_storage_tb.vhdl|
-Z62 !s107 /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/tlr_storage_tb.vhdl|
+R56
+Z63 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/tlr_storage_tb.vhdl|
+Z64 !s107 /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/tlr_storage_tb.vhdl|
 !i113 1
 R13
 R14
@@ -461,45 +461,45 @@ R1
 R2
 R3
 R4
-Z63 DEx4 work 14 tlr_storage_tb 0 22 ;<:L9Naoz;W;3P?z0@mGT3
-!i122 1799
+Z65 DEx4 work 14 tlr_storage_tb 0 22 ;<:L9Naoz;W;3P?z0@mGT3
+!i122 1979
 l40
-Z64 L16 88
-Z65 VGa]Zjh>R]T>A4V^ZW^I2F3
-Z66 !s100 TOh2NlCS:>WDe0LaXLgKF3
+L16 99
+V1L<MHgGYmP86>U^[UYk8O3
+!s100 @OghLz=WIn_GV?Mjc=lci1
 R8
 32
-R9
+R55
 !i10b 1
-R10
-R61
-R62
+R56
+R63
+R64
 !i113 1
 R13
 R14
 Etop_level_entity
-Z67 w1626094314
+Z66 w1626101498
 R1
 R2
 R22
 R23
 R3
 R4
-!i122 1796
+!i122 1976
 R5
-Z68 8/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Modules/top_level_entity.vhdl
-Z69 F/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Modules/top_level_entity.vhdl
+Z67 8/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Modules/top_level_entity.vhdl
+Z68 F/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Modules/top_level_entity.vhdl
 l0
 R35
 Vzz^IiPRjjG1?CGo@8GoLe1
 !s100 k:eOV@HBW:MJbY2LzZ>Wm0
 R8
 32
-R9
+R55
 !i10b 1
 R10
-Z70 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Modules/top_level_entity.vhdl|
-Z71 !s107 /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Modules/top_level_entity.vhdl|
+Z69 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Modules/top_level_entity.vhdl|
+Z70 !s107 /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Modules/top_level_entity.vhdl|
 !i113 1
 R13
 R14
@@ -511,43 +511,43 @@ R23
 R3
 R4
 DEx4 work 16 top_level_entity 0 22 zz^IiPRjjG1?CGo@8GoLe1
-!i122 1796
+!i122 1976
 l114
 L29 179
 V=?U?h3VWiUo3a1K]aA8`T3
 !s100 MTPgPXkjnz^ST98So3oN;3
 R8
 32
-R9
+R55
 !i10b 1
 R10
+R69
 R70
-R71
 !i113 1
 R13
 R14
 Etop_level_entity_tb
-Z72 w1626093889
+Z71 w1626093889
 R16
 R1
 R2
 R3
 R4
-!i122 1797
+!i122 1977
 R5
-Z73 8/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/top_level_entity_tb.vhdl
-Z74 F/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/top_level_entity_tb.vhdl
+Z72 8/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/top_level_entity_tb.vhdl
+Z73 F/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/top_level_entity_tb.vhdl
 l0
-R60
+R62
 VG<^j;30]?:gQ<8<6G2PTe1
 !s100 ?MDG1LDaIjbY;X>]WCkFV1
 R8
 32
-R9
+R55
 !i10b 1
-R10
-Z75 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/top_level_entity_tb.vhdl|
-Z76 !s107 /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/top_level_entity_tb.vhdl|
+R56
+Z74 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/top_level_entity_tb.vhdl|
+Z75 !s107 /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/top_level_entity_tb.vhdl|
 !i113 1
 R13
 R14
@@ -558,31 +558,31 @@ R2
 R3
 R4
 DEx4 work 19 top_level_entity_tb 0 22 G<^j;30]?:gQ<8<6G2PTe1
-!i122 1797
+!i122 1977
 l42
 L16 119
 VXSUBZof7P]WClf[SKIIda2
 !s100 k60ikIS@;P:zkNzocBD6M1
 R8
 32
-R9
+R55
 !i10b 1
-R10
+R56
+R74
 R75
-R76
 !i113 1
 R13
 R14
 Etop_level_resolver
-Z77 w1626083144
+Z76 w1626108296
 R1
 R2
 R3
 R4
-!i122 1788
+!i122 1968
 R5
-Z78 8/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Modules/top_level_resolver.vhdl
-Z79 F/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Modules/top_level_resolver.vhdl
+Z77 8/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Modules/top_level_resolver.vhdl
+Z78 F/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Modules/top_level_resolver.vhdl
 l0
 L15 1
 VHL2CeS64R6PFi475T:7DF1
@@ -592,8 +592,8 @@ R8
 R9
 !i10b 1
 R10
-Z80 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Modules/top_level_resolver.vhdl|
-Z81 !s107 /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Modules/top_level_resolver.vhdl|
+Z79 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Modules/top_level_resolver.vhdl|
+Z80 !s107 /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Modules/top_level_resolver.vhdl|
 !i113 1
 R13
 R14
@@ -603,31 +603,31 @@ R2
 R3
 R4
 R49
-!i122 1788
+!i122 1968
 l44
 L43 48
-VYNKNkn>YI2kW?J?9>ha1o2
-!s100 D66Lh@LA<<JXX0PZ4d=7_2
+V>D6k4:W5G<HfLaeFD3OfR2
+!s100 zc9=1:d6D?R`]0[GGdbl72
 R8
 32
 R9
 !i10b 1
 R10
+R79
 R80
-R81
 !i113 1
 R13
 R14
 Etop_level_resolver_tb
-Z82 w1623920294
+Z81 w1623920294
 R16
 R2
 R3
 R4
-!i122 1791
+!i122 1971
 R5
-Z83 8/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/top_level_resolver_tb.vhdl
-Z84 F/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/top_level_resolver_tb.vhdl
+Z82 8/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/top_level_resolver_tb.vhdl
+Z83 F/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/top_level_resolver_tb.vhdl
 l0
 R19
 V70KhM`TzW8C6;4=?>VZU70
@@ -637,8 +637,8 @@ R8
 R9
 !i10b 1
 R10
-Z85 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/top_level_resolver_tb.vhdl|
-Z86 !s107 /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/top_level_resolver_tb.vhdl|
+Z84 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|/home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/top_level_resolver_tb.vhdl|
+Z85 !s107 /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/top_level_resolver_tb.vhdl|
 !i113 1
 R13
 R14
@@ -648,7 +648,7 @@ R2
 R3
 R4
 DEx4 work 21 top_level_resolver_tb 0 22 70KhM`TzW8C6;4=?>VZU70
-!i122 1791
+!i122 1971
 l50
 L15 82
 V:RQ?KI[J6kaCjnSb]S9M_0
@@ -658,8 +658,8 @@ R8
 R9
 !i10b 1
 R10
+R84
 R85
-R86
 !i113 1
 R13
 R14

@@ -65,8 +65,8 @@ begin
     ---------------------------
     -- assign default values --
     ---------------------------
-    address_in <= (others => 'Z');
-    data_in    <= (others => 'Z');
+    address_in <= (others => '0');
+    data_in    <= (others => '0');
     load_in    <= '0';
     -------------------
     -- trigger reset --
@@ -74,18 +74,19 @@ begin
     reset <= '1';
     wait for 1.5 * clk_period;
     reset <= '0';
-    --------------------------------------------------
-    -- set first address near limit (80), 2nd layer --
-    --------------------------------------------------
+    -----------------------
+    -- set first address --
+    -----------------------
+    -- adress format: xxxx xxxx xxx (layer, perceptron, value)
     load_in    <= '1';
-    address_in <= std_logic_vector(to_unsigned(80, address_in'length));
+    address_in <= "00000011010"; -- (0, 3, 2)
     data_in    <= std_logic_vector(to_unsigned(4, data_in'length));
     wait for clk_period;
-    ----------------------------------------
-    -- set second address near limit (79) --
-    ----------------------------------------
+    ------------------------
+    -- set second address --
+    ------------------------
     load_in    <= '1';
-    address_in <= std_logic_vector(to_unsigned(63, address_in'length));
+    address_in <= "00010011010"; -- (1, 3, 2)
     data_in    <= std_logic_vector(to_unsigned(5, data_in'length));
     wait for clk_period;
     -----------------------------------
