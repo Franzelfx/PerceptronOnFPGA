@@ -326,3 +326,82 @@ restart
 # Loading work.storage(rtl)
 run -all
 # Break in Process beh_process at /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/tlr_storage_tb.vhdl line 112
+# Compile of top_level_resolver.vhdl was successful.
+# Compile of layer_resolver.vhdl was successful.
+# Compile of layer_resolver_tb.vhdl was successful with warnings.
+# Compile of top_level_resolver_tb.vhdl was successful with warnings.
+# Compile of perceptron.vhdl was successful.
+# Compile of perceptron_tb.vhdl was successful with warnings.
+# Compile of storage.vhdl was successful.
+# Compile of storage_tb.vhdl was successful with warnings.
+# Compile of top_level_entity.vhdl was successful.
+# Compile of top_level_entity_tb.vhdl was successful with warnings.
+# Compile of tlr_storage.vhdl was successful with warnings.
+# Compile of tlr_storage_tb.vhdl was successful with warnings.
+# 12 compiles, 0 failed with no errors.
+# End time: 20:35:37 on Jul 13,2021, Elapsed time: 4:35:44
+# Errors: 0, Warnings: 2
+# vsim work.top_level_entity_tb(bench) 
+# Start time: 20:35:37 on Jul 13,2021
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading ieee.math_real(body)
+# Loading std.env(body)
+# Loading work.top_level_entity_tb(bench)
+# Loading ieee.std_logic_arith(body)
+# Loading ieee.std_logic_unsigned(body)
+# Loading work.top_level_entity(rtl)
+# Loading work.top_level_resolver(rtl)
+# Loading work.storage(rtl)
+# Loading work.perceptron(rtl)
+# Loading work.layer_resolver(rtl)
+# .main_pane.wave.interior.cs.body.pw.wf
+# 0 ps
+# 43018752 ps
+# Break in Process beh_process at /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/top_level_entity_tb.vhdl line 131
+restart
+# ** Warning: Design size of 18711 statements exceeds ModelSim-Intel FPGA Starter Edition recommended capacity.
+# Expect performance to be adversely affected.
+run -all
+# Break in Process beh_process at /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/top_level_entity_tb.vhdl line 131
+restart
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# ** Warning: Design size of 18711 statements exceeds ModelSim-Intel FPGA Starter Edition recommended capacity.
+# Expect performance to be adversely affected.
+run -all
+# Break in Process beh_process at /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/top_level_entity_tb.vhdl line 131
+# Compile of top_level_resolver.vhdl was successful.
+# Compile of layer_resolver.vhdl was successful.
+# Compile of layer_resolver_tb.vhdl was successful with warnings.
+# Compile of top_level_resolver_tb.vhdl was successful with warnings.
+# Compile of perceptron.vhdl was successful.
+# Compile of perceptron_tb.vhdl was successful with warnings.
+# Compile of storage.vhdl was successful.
+# Compile of storage_tb.vhdl was successful with warnings.
+# Compile of top_level_entity.vhdl was successful.
+# Compile of top_level_entity_tb.vhdl was successful with warnings.
+# Compile of tlr_storage.vhdl was successful with warnings.
+# Compile of tlr_storage_tb.vhdl was successful with warnings.
+# 12 compiles, 0 failed with no errors.
+# End time: 21:25:27 on Jul 13,2021, Elapsed time: 0:49:50
+# Errors: 0, Warnings: 3
+# vsim work.storage_tb(bench) 
+# Start time: 21:25:27 on Jul 13,2021
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading std.env(body)
+# Loading work.storage_tb(bench)
+# Loading ieee.std_logic_arith(body)
+# Loading ieee.std_logic_unsigned(body)
+# Loading ieee.math_real(body)
+# Loading work.storage(rtl)
+# .main_pane.wave.interior.cs.body.pw.wf
+# 0 ps
+# 68250 ps
+# ** Note: Simulation Stop
+#    Time: 65 ns  Iteration: 0  Instance: /storage_tb
+# Break in Process check_beh at /home/fabian/git/PerceptronOnFPGA/Code/VHDL/Testbench/storage_tb.vhdl line 107
