@@ -129,22 +129,10 @@ begin
     ------------------------------------------------------
     dentrid_port <= "1111111111111111";
     wait for 2 * clk_period;
-    load <= '1';
-    wait for clk_period;
-    load <= '0';
-    wait for clk_period;
     dentrid_port <= "1111111111111110";
     wait for 2 * clk_period;
-    load <= '1';
-    wait for clk_period;
-    load <= '0';
-    wait for clk_period;
     dentrid_port <= "1111111111111111";
     wait for 2 * clk_period;
-    load <= '1';
-    wait for clk_period;
-    load <= '0';
-    wait for clk_period;
     report "Simulation Stop";
     stop;
   end process;
