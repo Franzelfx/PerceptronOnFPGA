@@ -91,6 +91,17 @@ begin
       wait for clk_period;
       load <= '0';
     end loop;
+    -- change to layer branch
+    mode <= '0';
+    wait for clk_period;
+    for i in 0 to 1023 loop
+      address <= std_logic_vector(to_unsigned(i, address'length)); -- addressing every place in the storage
+      data    <= rand_slv(16); -- write some randome data in the storage
+      wait for clk_period;
+      load <= '1';
+      wait for clk_period;
+      load <= '0';
+    end loop;
     -- get the data back iteratively at the output port
     for i in 0 to 1023 loop
       wait for clk_period;
