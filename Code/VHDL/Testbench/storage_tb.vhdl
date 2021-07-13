@@ -97,12 +97,6 @@ begin
     wait for clk_period;
     clk <= '0';
     wait for clk_period;
-    -----------------
-    -- final reset --
-    -----------------
-    --reset <= '1';
-    --wait for clk_period;
-    --reset <= '0';
     report "Simulation Stop";
     stop;
   end process;

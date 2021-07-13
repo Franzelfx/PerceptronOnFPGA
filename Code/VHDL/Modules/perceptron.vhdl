@@ -98,7 +98,7 @@ begin
         end loop; -- counter
         old_value := dentrid_port;
         -- update axon
-        if (count = activation_value) then
+        if (count >= activation_value) then
           axon_port <= '1';
         else
           axon_port <= '0';

@@ -60,7 +60,7 @@ begin
   ----------------------------------
   -- general module function test --
   ----------------------------------
-  input_process : process
+  check_beh : process
   begin
     ---------------------------
     -- assign default values --

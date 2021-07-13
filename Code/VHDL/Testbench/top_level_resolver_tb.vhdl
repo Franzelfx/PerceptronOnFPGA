@@ -73,9 +73,9 @@ begin
     load_in    <= '0';
     wait for 2 * clk_period;
     reset <= '0';
-    -------------------------------------------------------
-    -- addressing the layer (9Bit address and 4Bit data) --
-    -------------------------------------------------------
+    --------------------------
+    -- addressing the layer --
+    --------------------------
     mode       <= '0';
     load_in    <= '1';
     address_in <= "00101001001";

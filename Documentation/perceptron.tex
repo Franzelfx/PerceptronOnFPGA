@@ -25,19 +25,19 @@
 \lstdefinelanguage{VHDL}{
     morekeywords=[1]{
         library,use,all,entity,is,port,in,out,end,architecture,of,if,then,
-        begin,and,elsif,others,process,downto,variable,else,range,to,for,loop
+        begin,and,elsif,others,process,downto,variable,else,range,to,for,loop,wait
         },
     morekeywords=[2]{ % name
-        behaviour
+        behaviour,beh_process,input_process
         },
     morekeywords=[3]{ % std
-        integer,unsigned
+        integer,unsigned,std_logic_vector
     },
     morekeywords=[4]{ % number
         0,1,2,3,4,5,6,7,8,9
     },
     morekeywords=[5]{ % function
-        shift_right,rising_edge,to_integer
+        shift_right,rising_edge,to_integer,stop,to_unsigned
     },
   morecomment=[l]--
 }
@@ -97,7 +97,7 @@
 
 % Introduction
 \section{Einführung}
-Dieses Projekt hat den Anspruch, ein stromsparendes neuronales Netzwerk auf einem FPGA zu
+Dieses Projekt hat den Anspruch, ein effizientes neuronales Netzwerk auf einem FPGA zu
 entwerfen. Dazu geben die nächsten Abschnitte eine kurze Einführung in die grundlegenden
 Prinzipien, wie ein solches neuronales Netz modelliert werden kann.
 
@@ -779,6 +779,7 @@ end generate;
 \end{lstlisting}
 \caption{Programmcode der internen Signale} \label{code:generate_layers}
 \end{figure}
+\FloatBarrier
 In der Abbildung \ref{code:generate_layers} ist zu sehen, dass insgesamt 16 
 "layer\_resolver" und 13 Schichten mit Perzeptronen instanziiert werden. In jeder 
 Perzeptron-Schicht befinden sich wiederum jeweils 16 Perzeptronen. Wie bereits in 
@@ -788,9 +789,289 @@ bei der Instanziierung mit den internen Signalen verbunden.
 \section{Validierung}
 Die Validierung der einzelnen Module, der Integration verschiedener Module und der
 des gesamten Systems wird mit Hilfe der Simulation auf Regeister-Transfer-Ebene 
-in "Modelsim" realisiert.
+in "Modelsim" realisiert. Alle Tests können durch hinzufügen der benötigten Module 
+und das Ausführen der Modelsim-Skripte mit der Endung .do ausgeführt werden.
+Die erwähnten Skripte befinden sich im Ordner "SimulationConf".
 \subsection{Modultest}
-
+Im Folgenden werden die Modultests zu allen Modulen erläutert.
+\subsubsection{Top Level Resolver}
+Der "Top Level Resolver" wird mit besonderem Augenmerk auf seine Reaktion auf die
+verschiedenen Modi untersucht. Er dient als Stellglied für die Weiterleitung und
+Anpassung der Länge der Signale. Um die Funktion dahingehend zu überprüfen wurde 
+folgender Ablauf innerhalb einer Testbench realisiert:
+\begin{figure}[htbp]
+\begin{lstlisting}[style=VHDL,numbers=left,stepnumber=1,style=myCustomMatlabStyle,basicstyle=\footnotesize]
+beh_process : process
+  begin
+    reset      <= '1';
+    mode       <= '0';
+    address_in <= "00000000000";
+    data_in    <= "0000000000000000";
+    load_in    <= '0';
+    wait for 2 * clk_period;
+    reset <= '0';
+    --------------------------
+    mode       <= '0';
+    load_in    <= '1';
+    address_in <= "00101001001";
+    data_in    <= "0000000000001101";
+    wait for 2 * clk_period;
+    ----------------------------
+    -- addressing the storage --
+    ----------------------------
+    mode       <= '1';
+    load_in    <= '1';
+    address_in <= "01101100000";
+    data_in    <= "0000000000000011";
+    wait for 2 * clk_period;
+    report "Simulation Stop";
+    stop;
+  end process;
+\end{lstlisting}
+\caption{Programmcode der "Top Level Resolver" Testbench} \label{code:tlr_testbench}
+\end{figure}
+\begin{figure}[htb!]
+    \begin{center}
+      \includegraphics[width=15cm]{SimulationPictures/top_level_resolver_sim.png}
+    \end{center}
+    \caption{Simulationsergebnis "Top Level Resolver"} \label{fig:tlr_sim}
+  \end{figure}
+\FloatBarrier
+In dem Simulationsergebnis in Abbildung \ref{fig:tlr_sim} ist zu sehen, dass der 
+"Top Level Resolver" das erwartete Verhalten erfüllt und die Signale je nach gewähltem 
+"mode" weiter leitet. Des weiteren ist auch die Funktionalität der Bearbeitung der 
+Signale im Bezug auf deren Länge erfüllt.
+\pagebreak
+\subsubsection{Storage}
+Das Modul "Storage" wird auf seine Funktionalität im Bezug auf die Speicherung und Wiedergabe
+von 16Bit-Zahlen geprüft. Dafür werden in einer Testumgebung Zahlen erzeugt, in den Speicher 
+geschrieben und danach wieder iterativ ausgegeben.
+\begin{figure}[htbp]
+\begin{lstlisting}[style=VHDL,numbers=left,stepnumber=1,style=myCustomMatlabStyle,basicstyle=\footnotesize]
+behaviour : process (load_in_storage, clk, reset)
+    variable count : integer range 0 to 1023;
+  begin
+    --------------------
+    -- reset handling --
+    --------------------
+    if (reset = '1') then
+      -- Reset the 16Bit values of the whole 10Bit long array.
+      for i in 0 to 1023 loop
+        stored_value(i) <= (others => '0');
+        count := 0;
+      end loop;
+    end if;
+    --------------------
+    -- input handling --
+    --------------------
+    if (rising_edge(load_in_storage)) then
+      -- If the load is triggered, safe the value at the address.
+      stored_value(to_integer(unsigned(address_in_storage))) <= data_in_storage;
+    end if;
+    ---------------------
+    -- output handling --
+    ---------------------
+    if (rising_edge(clk)) then
+      layer_output <= stored_value(count);
+      count := count + 1;
+      if (count = 1023) then
+        count := 0;
+      end if;
+    end if;
+  end process;
+\end{lstlisting}
+\caption{Programmcode der "Storage" Testbench} \label{code:storage_testbench}
+\end{figure}
+\begin{figure}[htb!]
+    \begin{center}
+      \includegraphics[width=15cm]{SimulationPictures/storage_sim.png}
+    \end{center}
+    \caption{Simulationsergebnis "Storage"} \label{fig:storage_sim}
+  \end{figure}
+\FloatBarrier
+\begin{figure}[htb!]
+    \begin{center}
+      \includegraphics[width=15cm]{SimulationPictures/storage_memory_sim.png}
+    \end{center}
+    \caption{Speicherwerte "Storage"} \label{fig:storage_memory_sim}
+  \end{figure}
+\FloatBarrier
+In dem Simulationsergebnis aus Abbildung \ref{fig:storage_sim} ist zu sehen, dass die 
+Funktionswerte korrekt am Ausgang nach dem Speichern ausgegeben werden. Außerdem wird 
+der Speicher nach dem Zurücksetzen korrekt mit "0" gefüllt und die Werte ein weiteres
+mal durch das Prüfen mit der Funktion "Memory Data" in "Modelsim", wie in Abbildung
+\ref{fig:storage_memory_sim} zu sehen, geprüft.
+\pagebreak
+\subsubsection{Layer Resolver}
+Der "Layer Resolver" hat die Funktion, die eingehenden Adress- und Datensignale auf die 
+einzelnen Perzeptronen in der jeweiligen Schicht zu verteilen. Dies geschieht, wenn 
+die richtige Adresse der jeweiligen Schicht codiert ist. In der folgenden Testbench
+in Abbildung \ref{code:layer_resolver_testbench} wird dieses Verhalten geprüft.
+\begin{figure}[htbp]
+\begin{lstlisting}[style=VHDL,numbers=left,stepnumber=1,style=myCustomMatlabStyle,basicstyle=\footnotesize]
+check_beh : process
+  begin
+    ---------------------------
+    -- assign default values --
+    ---------------------------
+    address_in <= (others => '0');
+    data_in    <= (others => '0');
+    load_in    <= '0';
+    -------------------
+    -- trigger reset --
+    -------------------
+    reset <= '1';
+    wait for 1.5 * clk_period;
+    reset <= '0';
+    -----------------------
+    -- set first address --
+    -----------------------
+    -- adress format: xxxx xxxx xxx (layer, perceptron, value)
+    load_in    <= '1';
+    address_in <= "00000011010"; -- (0, 3, 2)
+    data_in    <= std_logic_vector(to_unsigned(4, data_in'length));
+    wait for clk_period;
+    ------------------------
+    -- set second address --
+    ------------------------
+    load_in    <= '1';
+    address_in <= "00010011010"; -- (1, 3, 2)
+    data_in    <= std_logic_vector(to_unsigned(5, data_in'length));
+    wait for clk_period;
+    -----------------------------------
+    -- check the reset functionality --
+    -----------------------------------
+    reset <= '1';
+    wait for 2 * clk_period;
+    reset <= '0';
+    stop;
+  end process;
+\end{lstlisting}
+\caption{Programmcode der "Layer Resolver" Testbench} \label{code:layer_resolver_testbench}
+\end{figure}
+\begin{figure}[htb!]
+    \begin{center}
+      \includegraphics[width=15cm]{SimulationPictures/layer_resolver_sim.png}
+    \end{center}
+    \caption{Simulationsergebnis "Layer Resolver"} \label{fig:layer_resolver_sim}
+  \end{figure}
+\FloatBarrier
+In dem Simulationsergebnis aus Abbildung \ref{fig:layer_resolver_sim} ist zu erkennen, dass
+die Daten- und Adressignale lediglich dann weiter geleitet und im Fall der Adressleitung
+gekürzt wird, sofern die richtige Schicht, in dem Fall die Schicht 1 adressiert wurde.
+\pagebreak
+\subsubsection{Perzeptron}
+Das Modul "Perzeptron" realisiert die eigentliche Funktion des am Ende in der "Top Level 
+Entity" gebildeten Netzes dieser. Die Testbench in Abbildung \ref{code:perceptron_testbench_1}
+und \ref{code:perceptron_testbench_2} prüft, ob die Werte für die Eingangs-sensitivität
+und den Schwellwert der Aktivierung gespeichert werden und schließlich auf Eingaben
+basier-end auf den zuvor eingestellten Werten entsprechend reagiert wird.
+\begin{figure}[htbp]
+    \begin{lstlisting}[style=VHDL,numbers=left,stepnumber=1,style=myCustomMatlabStyle,basicstyle=\footnotesize]
+check_beh : process
+  begin
+    --------------------
+    -- default values --
+    --------------------
+    reset        <= '0';
+    dentrid_port <= (others => '0');
+    address      <= (others => '0');
+    data         <= (others => '0');
+    load         <= '0';
+    wait for clk_period;
+    reset <= '1';
+    wait for clk_period;
+    reset <= '0';
+    wait for clk_period;
+    --------------------------
+    -- set activation value --
+    --------------------------
+    address <= "0000000";
+    wait for clk_period;
+    data <= "1111";
+    wait for clk_period;
+    load <= '1';
+    wait for clk_period;
+    load <= '0';
+    wait for clk_period;
+    -----------------------------
+    -- set a sensitivity value --
+    -----------------------------
+    -- sens_1
+    address <= "0000001";
+    wait for clk_period;
+    data <= "1111";
+    wait for clk_period;
+    load <= '1';
+    wait for clk_period;
+    load <= '0';
+    wait for clk_period;
+    -- sens_2
+    address <= "0000010";
+    wait for clk_period;
+    data <= "1111";
+    wait for clk_period;
+    load <= '1';
+    wait for clk_period;
+    load <= '0';
+    wait for clk_period;
+\end{lstlisting}
+\caption{Programmcode der "Perzeptron" Testbench} \label{code:perceptron_testbench_1}
+\end{figure}
+\FloatBarrier
+\begin{figure}[htbp]
+    \begin{lstlisting}[style=VHDL,numbers=left,stepnumber=1,style=myCustomMatlabStyle,basicstyle=\footnotesize]
+    -- sens_3
+    address <= "0000011";
+    wait for clk_period;
+    data <= "1111";
+    wait for clk_period;
+    load <= '1';
+    wait for clk_period;
+    load <= '0';
+    wait for clk_period;
+    -- sens_4
+    address <= "0000100";
+    wait for clk_period;
+    data <= "1111";
+    wait for clk_period;
+    load <= '1';
+    wait for clk_period;
+    load <= '0';
+    wait for clk_period;
+    -- final load to set the sens value
+    load <= '1';
+    wait for clk_period;
+    load <= '0';
+    wait for clk_period;
+    ------------------------------------------------------
+    -- check the programmed values and output behaviour --
+    ------------------------------------------------------
+    dentrid_port <= "1111111111111111";
+    wait for 2 * clk_period;
+    load <= '1';
+    wait for clk_period;
+    load <= '0';
+    wait for clk_period;
+    dentrid_port <= "1111111111111110";
+    wait for 2 * clk_period;
+    load <= '1';
+    wait for clk_period;
+    load <= '0';
+    wait for clk_period;
+    dentrid_port <= "1111111111111111";
+    wait for 2 * clk_period;
+    load <= '1';
+    wait for clk_period;
+    load <= '0';
+    wait for clk_period;
+    report "Simulation Stop";
+    stop;
+    end process;
+\end{lstlisting}
+\caption{Fortsetzung des Programmcode der "Perzeptron" Testbench} \label{code:perceptron_testbench_2}
+\end{figure}
+\FloatBarrier
 \subsection{Integrationstest}
 
 \subsection{Systemtest}

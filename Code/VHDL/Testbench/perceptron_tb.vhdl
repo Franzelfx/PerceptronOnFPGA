@@ -148,7 +148,7 @@ begin
     report "Simulation Stop";
     stop;
   end process;
-end;
+end architecture;
 ------------------------------------
 -- Configuration for the instance --
 ------------------------------------
