@@ -158,7 +158,7 @@ begin
   end generate;
   -- instances of layer resolver
   layer_resolvers : for i in 0 to 15 generate -- generate 16 layer resolvers
-    layer_resolver_inst : layer_resolver
+    layer_resolvers_inst : layer_resolver
     generic map(
       layer_count => i
     )

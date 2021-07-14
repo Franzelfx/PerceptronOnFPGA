@@ -24,14 +24,17 @@
 % VHDL
 \lstdefinelanguage{VHDL}{
     morekeywords=[1]{
-        library,use,all,entity,is,port,in,out,end,architecture,of,if,then,
-        begin,and,elsif,others,process,downto,variable,else,range,to,for,loop,wait
+        library,use,all,entity,is,port,in,out,end,architecture,of,if,then,signal,
+        begin,and,elsif,others,process,downto,variable,else,range,to,for,loop,wait,
+        type,generic,map,generate,layer_resolvers,layer_ad_1D,layer_arr_2D,layer_resolver,perceptron
         },
     morekeywords=[2]{ % name
-        behaviour,beh_process,input_process
+        behaviour,beh_process,input_process,layer_resolvers_inst,perceptron_arr_inst,
+        layer_resolvers_inst,check_beh
         },
     morekeywords=[3]{ % std
-        integer,unsigned,std_logic_vector
+        integer,unsigned,std_logic_vector,arr_16_times_16,arr_16_times_7,arr_16_times_4,
+        real
     },
     morekeywords=[4]{ % number
         0,1,2,3,4,5,6,7,8,9
@@ -102,7 +105,7 @@ entwerfen. Dazu geben die nächsten Abschnitte eine kurze Einführung in die gru
 Prinzipien, wie ein solches neuronales Netz modelliert werden kann.
 
 \subsection{Perceptron}
-Ein Perzeptron beschreibt ein analoges Modell einer biologischen menschlichen Zelle in
+Ein Perzeptron beschreibt ein Modell einer biologischen menschlichen Zelle in
 Computerdomäne. Dieses Perzeptron kann mit der folgenden Grafik beschrieben und mathematisch
 formuliert werden:
 
@@ -327,7 +330,7 @@ Takt- und Reset-Signale für jedes einzelne Modul in der Abbildung nicht dargest
 \pagebreak
 \subsection{Layer Level}
 Jede Schicht des Hardwaremodells besteht aus einem "Layer Resolver", der sich um die
-Signal-verteilung an jedes einzelne Perzeptron kümmert. Dies hat den Vorteil, dass die 
+Signalverteilung an jedes einzelne Perzeptron kümmert. Dies hat den Vorteil, dass die 
 Datenleitungen insgesamt reduziert werden.
 % Layer Level Hardware Model Diagram
 \begin{figure}[htbp]
@@ -470,11 +473,11 @@ behaviour : process (reset, mode, address_in, data_in, load_in) is
 In dem Programmcode aus \ref{code:top_level_resolver} ist ersichtlich, dass es sich lediglich
 um rein kombinatorische Logik handelt, welche keinen externen Takt benötigt. Es handelt 
 sich bei dem gezeigten Code lediglich um den "Process", die "Entity" und "Architecture"
-wurden im Folgenden näher erleutert.
+sind in der Modulbeschreibung \ref{fig:top_level_resolver} ersichtlich.
 \pagebreak
 \subsection{Storage}
 Das Modul "Storage" ist für die Speicherung der Eingangs-Funktionswerte zuständig, um das 
-Modell des Multilayer-Perzeptrons mit Daten zu versorgen und optimierungen auf bestimmte 
+Modell des Multilayer-Perzeptrons mit Daten zu versorgen und Optimierungen auf bestimmte 
 Funktionen vor zu nehmen.
 \begin{figure}[htb!]
     \begin{center}
@@ -486,8 +489,8 @@ Funktionen vor zu nehmen.
 \pagebreak
 In der Modulbeschreibung aus Abbildung \ref{fig:storage} ist ersichtlich, dass der 
 Speicher eine Adressweite von 10Bit besitzt und 16Bit Werte speichern kann. Des weiteren 
-wird aus dem Code in Abbildung ersichtlich, dass bei anlegen eines Taktsignals  "clk" 
-die gespeicherten Werte iterativ am Ausgang "layer\_output" ausgegeben werden. Der 
+wird aus dem Code in Abbildung \ref{code:storage} ersichtlich, dass bei anlegen eines Taktsignals  "clk" 
+die gespeicherten Werte iterativ am Ausgang \linebreak "layer\_output" ausgegeben werden. Der 
 "layer\_output" stellt  die Verbindung zwischen dem Speichermodul und der ersten 
 Perzeptron-Schicht dar.
 \begin{figure}[htbp]
@@ -508,14 +511,14 @@ Perzeptron-Schicht dar.
     --------------------
     -- input handling --
     --------------------
-    if (rising_edge(load_in_storage)) then
+    if (load_in_storage = '1') then
       -- If the load is triggered, safe the value at the address.
       stored_value(to_integer(unsigned(address_in_storage))) <= data_in_storage;
     end if;
     ---------------------
     -- output handling --
     ---------------------
-    if (rising_edge(clk)) then
+    if (clk = '1') then
       layer_output <= stored_value(count);
       count := count + 1;
       if (count = 1023) then
@@ -540,8 +543,8 @@ und den einzelnen Schichten mit Perzeptronen.
 In der Modulbeschreibung aus Abbildung \ref{fig:layer_resolver} ist ersichtlich, dass der 
 "Layer Resolver" bei seiner Instanziierung einen Parameter übergeben bekommt, welcher angibt 
 in welcher Schicht sich der "Layer Resolver" befindet. Dies ist nötig, um die Adressen richtig 
-an die Perzeptrone in jeder einzelnen Schicht weiter zu leiten. Die 10Bit Eingangs-Adresse 
-wird durch den "Layer Resover" in eine 6Bit Ausgangs-Adresse gewandelt.
+an die Perzeptronen in jeder einzelnen Schicht weiter zu leiten. Die 11Bit Eingangs-Adresse 
+wird durch den "Layer Resover" in eine 7Bit Ausgangs-Adresse gewandelt.
 \begin{figure}[htbp]
 \begin{lstlisting}[style=VHDL,numbers=left,stepnumber=1,basicstyle=\footnotesize]
 behaviour : process (address_in, reset, load_in, data_in) is
@@ -585,7 +588,7 @@ Es handelt sich weider um einen rein kombinatorischen Prozess ohne Taktabhandlun
 Das Perzeptron selbst besteht aus einer binären Eingabesteuerung anstelle von 
 Gleitkommaberechnungen. Das bedeutet, dass die Verbindung von einem Perzeptron-Ausgang zu 
 einem anderen Perzeptron-Eingang nur aktiv oder nicht aktiv sein kann.
-Darüber hinaus ist der zweite Parameter innerhalb des Perzeptrons die Aktivierungsfunktion, die
+Darüber hinaus ist der zweite Parameter innerhalb des Perzeptrons die Aktivierungsfunktion,
 welche im Grunde die Summation über die "high"-Eingangs-signale darstellt.
 Wenn die Summe größer ist als ein gegebener Wert wird der Ausgang des Perzeptrons auf 
 "high" gesetzt. In dem Programmcode aus Abbildung \ref{code:perceptron} ist ersichtlich, 
@@ -595,8 +598,8 @@ schließlich zu einem 16Bit-Vektor zusammengefasst werden. Die Adresierung des
 "activation\_value", welcher eine Aussage darüber trifft, ab wie vielen logischen "high"-
 Werten der Ausgang eine "1" annimt wird auf die selbe Weise adressiert. Über die 
 "data"-Verbindung wird schließlich den adressierten Speichern ein Wert zugewiesen.
-Zusammenfasend ist zu sagen, das die letzten 3-Bit in der Adresse immer die Adressierung 
-der spezifischen Aktivierungsfunktionen darstellt.
+Zusammenfasend ist zu sagen, dass die letzten 3-Bit in der Adresse immer die Adressierung 
+der spezifischen Aktivierungs- und Sensitivitäts-funktionen darstellt.
 \begin{figure}[htb!]
     \begin{center}
       \includegraphics[width=13.25cm]{ModuleDescription/perceptron.png}
@@ -662,7 +665,7 @@ behaviour : process (load, reset, dentrid_port, address, data) is
         end loop; -- counter
         old_value := dentrid_port;
         -- update axon
-        if (count = activation_value) then
+        if (count >= activation_value) then
           axon_port <= '1';
         else
           axon_port <= '0';
@@ -745,7 +748,7 @@ Die Instanziierung der restlichen Module funktioniert ähnlich dem der einzelnen
 \begin{lstlisting}[style=VHDL,numbers=left,stepnumber=1,style=myCustomMatlabStyle,basicstyle=\footnotesize]
 -- instances of layer resolver
 layer_resolvers : for i in 0 to 15 generate -- generate 16 layer resolvers
-  layer_resolver_inst : layer_resolver
+  layer_resolvers_inst : layer_resolver
   generic map(
     layer_count => i
   )
@@ -848,40 +851,61 @@ von 16Bit-Zahlen geprüft. Dafür werden in einer Testumgebung Zahlen erzeugt, i
 geschrieben und danach wieder iterativ ausgegeben.
 \begin{figure}[htbp]
 \begin{lstlisting}[style=VHDL,numbers=left,stepnumber=1,style=myCustomMatlabStyle,basicstyle=\footnotesize]
-behaviour : process (load_in_storage, clk, reset)
-    variable count : integer range 0 to 1023;
-  begin
-    --------------------
-    -- reset handling --
-    --------------------
-    if (reset = '1') then
-      -- Reset the 16Bit values of the whole 10Bit long array.
-      for i in 0 to 1023 loop
-        stored_value(i) <= (others => '0');
-        count := 0;
-      end loop;
-    end if;
-    --------------------
-    -- input handling --
-    --------------------
-    if (rising_edge(load_in_storage)) then
-      -- If the load is triggered, safe the value at the address.
-      stored_value(to_integer(unsigned(address_in_storage))) <= data_in_storage;
-    end if;
-    ---------------------
-    -- output handling --
-    ---------------------
-    if (rising_edge(clk)) then
-      layer_output <= stored_value(count);
-      count := count + 1;
-      if (count = 1023) then
-        count := 0;
-      end if;
-    end if;
-  end process;
+check_beh : process
+begin
+  -----------------
+  -- first reset --
+  -----------------
+  reset              <= '1';
+  clk                <= '0';
+  load_in_storage    <= '0';
+  address_in_storage <= std_logic_vector(to_unsigned(0, address_in_storage'length));
+  data_in_storage    <= std_logic_vector(to_unsigned(0, data_in_storage'length));
+  wait for clk_period;
+  reset <= '0';
+  --------------------------
+  -- set the input values --
+  --------------------------
+  address_in_storage <= std_logic_vector(to_unsigned(0, address_in_storage'length));
+  data_in_storage    <= std_logic_vector(to_unsigned(244, data_in_storage'length));
+  wait for clk_period;
+  load_in_storage <= '1';
+  wait for clk_period;
+  load_in_storage    <= '0';
+  address_in_storage <= std_logic_vector(to_unsigned(1, address_in_storage'length));
+  data_in_storage    <= std_logic_vector(to_unsigned(12, data_in_storage'length));
+  wait for clk_period;
+  load_in_storage <= '1';
+  wait for clk_period;
+  load_in_storage    <= '0';
+  address_in_storage <= std_logic_vector(to_unsigned(2, address_in_storage'length));
+  data_in_storage    <= std_logic_vector(to_unsigned(899, data_in_storage'length));
+  wait for clk_period;
+  load_in_storage <= '1';
+  wait for clk_period;
+  load_in_storage <= '0';
+  ---------------------------
+  -- get the output values --
+  ---------------------------
+  clk <= '1';
+  wait for clk_period;
+  clk <= '0';
+  wait for clk_period;
+  clk <= '1';
+  wait for clk_period;
+  clk <= '0';
+  wait for clk_period;
+  clk <= '1';
+  wait for clk_period;
+  clk <= '0';
+  wait for clk_period;
+  report "Simulation Stop";
+  stop;
+end process;
 \end{lstlisting}
 \caption{Programmcode der "Storage" Testbench} \label{code:storage_testbench}
 \end{figure}
+\pagebreak
 \begin{figure}[htb!]
     \begin{center}
       \includegraphics[width=15cm]{SimulationPictures/storage_sim.png}
@@ -1049,33 +1073,288 @@ check_beh : process
     ------------------------------------------------------
     dentrid_port <= "1111111111111111";
     wait for 2 * clk_period;
-    load <= '1';
-    wait for clk_period;
-    load <= '0';
-    wait for clk_period;
     dentrid_port <= "1111111111111110";
     wait for 2 * clk_period;
-    load <= '1';
-    wait for clk_period;
-    load <= '0';
-    wait for clk_period;
     dentrid_port <= "1111111111111111";
     wait for 2 * clk_period;
-    load <= '1';
-    wait for clk_period;
-    load <= '0';
-    wait for clk_period;
     report "Simulation Stop";
     stop;
-    end process;
+  end process;  
 \end{lstlisting}
 \caption{Fortsetzung des Programmcode der "Perzeptron" Testbench} \label{code:perceptron_testbench_2}
 \end{figure}
 \FloatBarrier
+\begin{figure}[htb!]
+    \begin{center}
+      \includegraphics[width=15cm]{SimulationPictures/perceptron_sim.png}
+    \end{center}
+    \caption{Simulationsergebnis "Perceptron"} \label{fig:perceptron_sim}
+  \end{figure}
+\FloatBarrier
+In dem Simulationsergebnis in Abbildung \ref{fig:perceptron_sim} ist zu sehen, dass die
+extern angelegten Signale intern gespeichert und ausgewertet werden. Auswerten meint
+hierbei das Zusammenfügen der 4Bit-Datenleitung zu einem 16Bit-Eingangsvektor, welcher
+die Sensitivität der Eingangssignale des Perzeptron festlegt. Des weiteren ist ersichtlich,
+dass bei Anlegen eines der Sensitivität ("sensitivity\_value") und dem Aktivierungswert
+("activation\_value") entsprechenden Eingangssignals der Ausgang eine logische "1"
+ausgibt.
+\pagebreak
 \subsection{Integrationstest}
-
+Bei dem Integrationstest wird geprüft, ob einzelne Module seitens der Schnittstelle 
+zusammen spielen und die erwartete Funktion erfüllen.
+\subsubsection{Top Level Resover und Storage}
+Als Integrationstest wurde der "Top Level Resolver" und das Modul "Storage" zusammen 
+geschaltet und auf korrekte Funktion überprüft. Dafür wurden wie in Abbildung 
+\ref{code:tlr_storage_testbench1} zu sehen zufällige Werte für den Eingang verwendet.
+\begin{figure}[htbp]
+\begin{lstlisting}[style=VHDL,numbers=left,stepnumber=1,style=myCustomMatlabStyle,basicstyle=\footnotesize]
+beh_process : process is
+    -- randome number variable
+    variable seed1, seed2 : integer := 999;
+    -- randome vector number generator
+    impure function rand_slv(len : integer) return std_logic_vector is
+      variable r                   : real;
+      variable slv                 : std_logic_vector(len - 1 downto 0);
+    begin
+      for i in slv'range loop
+        uniform(seed1, seed2, r);
+        if r > 0.5 then
+          slv(i) := '1';
+        else
+          slv(i) := '0';
+        end if;
+      end loop;
+      return slv;
+    end function;
+    ----------------------------
+    -- actual behaviour check --
+    ----------------------------
+  begin
+    -- reset everything and set standard values
+    wait for clk_period;
+    clk     <= '0';
+    reset   <= '1';
+    mode    <= '1'; -- '1' for storage addressing
+    address <= (others => '0');
+    data    <= (others => '0');
+    load    <= '0';
+    wait for clk_period;
+    -- load some data in the storage
+    reset <= '0';
+    for i in 0 to 1023 loop
+      -- addressing every place in the storage
+      address <= std_logic_vector(to_unsigned(i, address'length));
+      data    <= rand_slv(16); -- write some randome data in the storage
+      wait for clk_period;
+      load <= '1';
+      wait for clk_period;
+      load <= '0';
+    end loop;
+\end{lstlisting}
+\caption{Programmcode der "Top Lavel Resolver" und "Storage" Testbench} \label{code:tlr_storage_testbench1}
+\end{figure}
+\begin{figure}[htbp]
+\begin{lstlisting}[style=VHDL,numbers=left,stepnumber=1,style=myCustomMatlabStyle,basicstyle=\footnotesize]
+  -- change to layer branch
+  mode <= '0';
+  wait for clk_period;
+  for i in 0 to 1023 loop
+    -- addressing every place in the storage
+    address <= std_logic_vector(to_unsigned(i, address'length));
+    data    <= rand_slv(16); -- write some randome data in the storage
+    wait for clk_period;
+    load <= '1';
+    wait for clk_period;
+    load <= '0';
+  end loop;
+  -- get the data back iteratively at the output port
+  for i in 0 to 1023 loop
+    wait for clk_period;
+    clk <= '1';
+    wait for clk_period;
+    clk <= '0';
+  end loop;
+  stop;
+end process;
+\end{lstlisting}
+\caption{Fortsetzung Programmcode der "Top Level Resolver" und "Storage" Testbench} \label{code:tlr_storage_testbench2}
+\end{figure}
+\FloatBarrier
+\begin{figure}[htb!]
+    \begin{center}
+      \includegraphics[width=15cm]{SimulationPictures/tlr_storage_store_sim.png}
+    \end{center}
+    \caption{Simulationsergebnis weiterleitung Speicher "Top Lavel Resolver" und "Storage"} \label{fig:tlr_storage_sim1}
+  \end{figure}
+\FloatBarrier
+In der Abbildung \ref{fig:tlr_storage_sim1} wurde im wesetlichen betrachtet, ob die 
+Weiterleitung und Bearbeitung des eingehenden Signals auf das interne Signal-Routing
+für den Speicher-Zweig seine Funktion erfüllt.
+\begin{figure}[htb!]
+    \begin{center}
+      \includegraphics[width=15cm]{SimulationPictures/tlr_storage_layer_sim.png}
+    \end{center}
+    \caption{Simulationsergebnis weiterleitung Layer "Top Level Resolver" und "Storage"} \label{fig:tlr_storage_sim2}
+  \end{figure}
+\FloatBarrier
+In der Abbildung \ref{fig:tlr_storage_sim2} wurde dies nun ebenfalls für den Layer-Zweig
+betrachtet.
+\begin{figure}[htb!]
+    \begin{center}
+      \includegraphics[width=15cm]{SimulationPictures/storage_memory_data_sim.png}
+    \end{center}
+    \caption{Speicherinhalt des "Storage" Moduls beim Integrationstes} \label{fig:storage_content}
+  \end{figure}
+\FloatBarrier
+In der Abbildung \ref{fig:storage_content} ist der zufällige Speicherinhalt des "Storage"
+Moduls abgebildet.
+\pagebreak
 \subsection{Systemtest}
-
+In Abbildung \ref{code:top_level_entity_testbench1} ist der Programmcode zum testen der
+"Top Level Entity" ersichtlich. Zunächst werden einige Zufallswerte in den Speicher
+geschrieben, um im späteren Verlauf eine Stimulation des Multilayer-Perzeptrons 
+zu realisieren. Danach wird mit den standard Aktivierungs- und Sensitivitätswerten
+diese Stimulation einmal komplett über alle Funktionswerte iteriert. Darauffolgend
+werden, wie in Abbildung \ref{code:top_level_entity_testbench1} zu sehen, nun zufällige 
+Werte für die Aktivierungs- und Sensitivitätswerte generiert, und adressiert. 
+Schließlich werden die im Speicher abgelegten Werte wieder iteriert, um das jetzt sich 
+ergebende Verhalten ebenfalls zu untersuchen.
+\begin{figure}[htbp]
+\begin{lstlisting}[style=VHDL,numbers=left,stepnumber=1,style=myCustomMatlabStyle,basicstyle=\footnotesize]
+-- system integration test
+  beh_process : process
+    -- randome number variable
+    variable seed1, seed2 : integer := 999;
+    -- randome vector number generator
+    impure function rand_slv(len : integer) return std_logic_vector is
+      variable r                   : real;
+      variable slv                 : std_logic_vector(len - 1 downto 0);
+    begin
+      for i in slv'range loop
+        uniform(seed1, seed2, r);
+        if r > 0.5 then
+          slv(i) := '1';
+        else
+          slv(i) := '0';
+        end if;
+      end loop;
+      return slv;
+    end function;
+  begin
+    --------------------------------
+    -- Write Test Data to Storage --
+    --------------------------------
+    -- reset everything and set standard values
+    wait for clk_period;
+    clk     <= '0';
+    reset   <= '1';
+    mode    <= '1'; -- '1' for storage addressing
+    address <= (others => '0');
+    data    <= (others => '0');
+    load    <= '0';
+    wait for clk_period;
+    -- load some data in the storage
+    reset <= '0';
+    for i in 0 to 1023 loop
+      -- addressing every place in the storage
+      address <= std_logic_vector(to_unsigned(i, address'length));
+      data    <= rand_slv(16); -- write some randome data in the storage
+      wait for clk_period;
+      load <= '1';
+      wait for clk_period;
+      load <= '0';
+    end loop;
+    ------------------------------------------------
+    -- Standard Activation and Sensitivity Values --
+    ------------------------------------------------
+    -- get the storage data back iteratively at the output port
+    for i in 0 to 1023 loop
+      wait for clk_period;
+      clk <= '1';
+      wait for clk_period;
+      clk <= '0';
+    end loop;
+\end{lstlisting}
+\caption{Programmcode der "Top Level Entity" Testbench} \label{code:top_level_entity_testbench1}
+\end{figure}
+\FloatBarrier
+\begin{figure}[htbp]
+\begin{lstlisting}[style=VHDL,numbers=left,stepnumber=1,style=myCustomMatlabStyle,basicstyle=\footnotesize]
+    ----------------------------------------------------
+    -- Non Standard Activation and Sensitivity Values --
+    ----------------------------------------------------
+    -- format is: xxxx xxxx xxx (layer, perceptron in layer, value)
+    -- value => 0 = activation value, 1-4 = sens_1 to sens_4,
+    -- ends up in 16Bit activation vector
+    mode <= '0'; -- '0' for layer addressing
+    for i in 0 to 2047 loop -- iterate over all perceptrons
+      address <= std_logic_vector(to_unsigned(i, address'length));
+      data    <= "0000000000001111" and rand_slv(16); -- set randome activation value
+      wait for clk_period/2;
+      load <= '1';
+      wait for clk_period/2;
+      load <= '0';
+    end loop;
+    -- get the storage data back iteratively at the output port
+    for i in 0 to 1023 loop
+      wait for clk_period;
+      clk <= '1';
+      wait for clk_period;
+      clk <= '0';
+    end loop;
+    stop;
+  end process;
+\end{lstlisting}
+\caption{Fortsetzung Programmcode der "Top Level Entity" Testbench} \label{code:top_level_entity_testbench2}
+\end{figure}
+\FloatBarrier
+\begin{figure}[htb!]
+    \begin{center}
+      \includegraphics[width=15cm]{SimulationPictures/top_level_entyity_sens_sim.png}
+    \end{center}
+    \caption{Systemtest zum Speichern von Aktivierungs- und Sensitivitätswerten} \label{fig:system_params}
+  \end{figure}
+\FloatBarrier
+In der Abbildung \ref{fig:system_params} ist unter dem "Divider" mit Namen: "Perceptron 
+Signals" der Signalverlauf innerhalb der ersten Instanz des Perzeptron in dem ersten 
+"Layer" zu sehen. Es ist ersichtlich, dass dieses Perzeptron die gegebenen Werte 
+zur Sensitivität und Aktivierung übernimmt und in den internen Speicher ablegt.
+\begin{figure}[htb!]
+    \begin{center}
+      \includegraphics[width=15cm]{SimulationPictures/top_level_entity_stimulus_sim.png}
+    \end{center}
+    \caption{Systemtest zur Reaktion auf Eingags-Stimuli} \label{fig:system_stimuli}
+  \end{figure}
+\FloatBarrier
+In der Abbildung \ref{fig:system_stimuli} ist ersichtlich, dass das System auf ein
+Stimuli am Eingang entsprechend reagiert und die Ausgänge des "Axon-Port" setzt.
+Dies ist unter dem "Divider" mit dem Namen "Perceptron Layer" innerhalb des 
+"layer\_axon\_arr" ersichtlich.
+\pagebreak
 \subsection{Timing-Analyse}
+Das Skript für die Timing-Analyse befindet sich in dem Ordner quartus/simulation/modelsim
+und trägt den Namen "perceptron\_on\_FPGA\_run\_msim\_gate\_vhdl.do". Leider ist mein Rechner 
+nicht in der Lage dieses Skript in absehbarer Zeit zu simulieren, daher sei hier lediglich
+der Verweis auf dieses angegeben.
 
+\section{Zusammenfassung und Ausblick}
+Zum Schluss sei erwähnt, dass das Multilayer-Perzeptron bis zum endgültigen Hardware-Test 
+weitere Systemtest durchlaufen sollte, hinsichtlich der Korektheit von Eingaben und 
+zu erwartenden Ausgaben. Darüber hinaus ist die Implementierung eines Optimierungs-
+Algorithmus für das Anlernen des Systems notwendig. Des weiteren sei erwähnt, dass die 
+Implementierung des Speichers überarbeitet werden sollte, da bei nicht einhalten von 
+äußeren Timing- Vorgaben hier unerwartetes Verhalten auftreten kann. Ein Umschalten 
+zwischen schreiben und lesen des Speichers ist an dieser Stelle sinnvoller, als das 
+Abhandeln von zwei verschiedenen Takt-Leitungen für lesen und schreiben des Speichers.
+
+\section{Eigenständigkeitserklärung}
+Hiermit bestätige ich, dass ich die vorliegende Arbeit selbständig verfasst und keine 
+anderen als die angegebenen Hilfsmittel benutzt habe. Die Stellen der Arbeit, die dem 
+Wortlaut oder dem Sinn nach anderen Werken einschließlich Internetquellen entnommen sind, 
+wurden unter Angabe der Quelle kenntlich gemacht.
+\linebreak
+\linebreak
+\linebreak
+\linebreak
+Fabian Franz
 \end{document}

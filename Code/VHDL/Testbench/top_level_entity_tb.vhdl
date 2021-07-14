@@ -72,7 +72,6 @@ begin
       return slv;
     end function;
   begin
-
     --------------------------------
     -- Write Test Data to Storage --
     --------------------------------
@@ -95,7 +94,6 @@ begin
       wait for clk_period;
       load <= '0';
     end loop;
-
     ------------------------------------------------
     -- Standard Activation and Sensitivity Values --
     ------------------------------------------------
@@ -106,7 +104,6 @@ begin
       wait for clk_period;
       clk <= '0';
     end loop;
-
     ----------------------------------------------------
     -- Non Standard Activation and Sensitivity Values --
     ----------------------------------------------------
